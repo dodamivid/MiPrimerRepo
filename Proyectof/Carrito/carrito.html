@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrito de Compras</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header>
+    <h1>Carrito</h1>
+    <nav>
+        <ul>
+            <li><a href="../inicio/index.html">Inicio</a></li>
+            <li><a href="../productos/productos.html">Productos</a></li>
+            <li><a href="carrito.html">Carrito</a></li>
+            <li><a href="../checkout.html">Checkout</a></li>
+            <li><a href="../admin.html">Admin</a></li>
+        </ul>
+    </nav>
+</header>
+  <div class="carrito-container">
+    <h2>Carrito de Compras</h2>
+    <div id="carrito-lista"></div>
+    <p id="total">Total: $0</p>
+    <button onclick="vaciarCarrito()">Vaciar Carrito</button>
+  </div>
+
+  <script src="carrito.js"></script>
+</body>
+</html>
