@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Checkout</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Tienda de Mascotas</h1>
+    <nav>
+      <ul>
+        <li><a href="../inicio/index.html">Inicio</a></li>
+        <li><a href="../productos/productos.html">Productos</a></li>
+        <li><a href="../Carrito/carrito.html">Carrito</a></li>
+        <li><a href="../checkout.html">Checkout</a></li>
+        <li><a href="../Panel de Administracion/admin.html">Admin</a></li>
+    </ul>
+    </nav>
+  </header>
+
+  <div class="checkout-container">
+    <h2>Finalizar Compra</h2>
+    
+    <form id="checkout-form">
+      <label for="nombre">Nombre completo:</label>
+      <input type="text" id="nombre" required>
+
+      <label for="direccion">Dirección:</label>
+      <input type="text" id="direccion" required>
+
+      <label for="pago">Método de pago:</label>
+      <select id="pago" required>
+        <option value="">Selecciona...</option>
+        <option value="tarjeta">Tarjeta de crédito</option>
+        <option value="paypal">PayPal</option>
+        <option value="efectivo">Efectivo</option>
+      </select>
+
+      <p id="total">Total: $0</p>
+
+      <button type="submit">Confirmar Compra</button>
+    </form>
+  </div>
+
+  <script src="checkout.js"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Panel de Administración</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <header>
+    <h1>Admin - Tienda de Mascotas</h1>
+    <nav>
+      <ul>
+        <li><a href="../inicio/index.html">Inicio</a></li>
+        <li><a href="../productos/productos.html">Productos</a></li>
+        <li><a href="../carrito/carrito.html">Carrito</a></li>
+        <li><a href="../checkout/checkout.html">Checkout</a></li>
+        <li><a href="admin.html">Admin</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main class="admin-container">
+    <h2>Agregar Producto</h2>
+    <form id="form-producto">
+      <input type="text" id="nombre" placeholder="Nombre del producto" required>
+      <input type="number" id="precio" placeholder="Precio" required>
+      <button type="submit">Agregar</button>
+    </form>
+
+    <h2>Lista de Productos</h2>
+    <ul id="lista-productos"></ul>
+  </main>
+
+  <script src="admin.js"></script>
+</body>
+</html>
