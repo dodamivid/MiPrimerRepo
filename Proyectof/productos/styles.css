@@ -31,3 +31,34 @@ main {
   padding: 20px;
   text-align: center;
 }
+
+#productos-lista{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.producto {
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 10px;
+  width: 200px;
+  text-align: center;
+}
+.producto img {
+  margin-bottom: 20px
+}
+
+#agregarBTN {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+#agregarBTN:hover {
+  background-color: #218838;
+}

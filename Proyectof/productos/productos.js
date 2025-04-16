@@ -21,7 +21,8 @@ document.addEventListener("DOMContentLoaded", function () {
     item.innerHTML = `
       <h3>${producto.nombre}</h3>
       <p>Precio: $${producto.precio}</p>
-      <button onclick="agregarAlCarrito('${producto.nombre}', ${producto.precio})">Agregar al Carrito</button>
+      <img src="Resources/${producto.nombre}.png" alt="${producto.nombre}" width="100" height="100"><br>
+      <button id="agregarBTN" onclick="agregarAlCarrito('${producto.nombre}', ${producto.precio})">Agregar al Carrito</button>
       <br><br>
       <a href="../Detalle de Producto/detalle.html?nombre=${nombreEncoded}&precio=${producto.precio}">Ver más</a>
     `;
