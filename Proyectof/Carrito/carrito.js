@@ -6,14 +6,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let total = 0;
 
+  if (carrito.length === 0) {
+    carritoLista.innerHTML = '<p>El carrito está vacío.</p>';
+    return;
+  }
+
   carrito.forEach((producto, index) => {
     const item = document.createElement("div");
+    const subtotal = producto.precio * (producto.cantidad || 1);
+    total += subtotal;
+
+    item.classList.add("carrito-item");
     item.innerHTML = `
-      <strong>${producto.nombre}</strong> - $${producto.precio}
+      <p><strong>${producto.nombre}</strong></p>
+      <p>Precio: $${producto.precio} x ${producto.cantidad || 1} = <strong>$${subtotal}</strong></p>
       <button onclick="eliminarProducto(${index})">Eliminar</button>
     `;
     carritoLista.appendChild(item);
-    total += producto.precio;
   });
 
   totalElemento.textContent = `Total: $${total}`;
@@ -23,7 +32,7 @@ function eliminarProducto(index) {
   const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
   carrito.splice(index, 1);
   localStorage.setItem("carrito", JSON.stringify(carrito));
-  location.reload(); // recarga para actualizar la vista
+  location.reload();
 }
 
 function vaciarCarrito() {

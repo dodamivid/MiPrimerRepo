@@ -19,6 +19,11 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
+    if (carrito.length === 0) {
+      alert("Tu carrito está vacío. Agrega productos antes de finalizar la compra.");
+      return;
+    }
+
     alert(`¡Gracias por tu compra, ${nombre}!\nTu pedido será enviado a: ${direccion}`);
 
     // Limpiamos el carrito después de comprar

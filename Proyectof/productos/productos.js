@@ -32,5 +32,9 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function agregarAlCarrito(nombre, precio) {
-  console.log(`Producto agregado: ${nombre} - Precio: ${precio}`);
+  const producto = { nombre, precio };
+  let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+  carrito.push(producto);
+  localStorage.setItem("carrito", JSON.stringify(carrito));
+  alert(`Producto agregado al carrito:\n${nombre} - $${precio}`);
 }

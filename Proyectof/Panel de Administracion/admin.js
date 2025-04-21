@@ -9,7 +9,8 @@ document.addEventListener("DOMContentLoaded", function () {
     productos.forEach((producto, index) => {
       const li = document.createElement("li");
       li.innerHTML = `
-        ${producto.nombre} - $${producto.precio}
+        <img src="${producto.imagen}" width="50" height="50">
+        ${producto.nombre} - $${producto.precio} - ${producto.descripcion}
         <button onclick="eliminarProducto(${index})">Eliminar</button>
       `;
       lista.appendChild(li);
@@ -20,11 +21,20 @@ document.addEventListener("DOMContentLoaded", function () {
     e.preventDefault();
     const nombre = document.getElementById("nombre").value;
     const precio = parseFloat(document.getElementById("precio").value);
+    const descripcion = document.getElementById("descripcion").value;
+    const input = document.getElementById("imagen");
+    
+    //se lee el contenido de la imagen proporcionada y se guarda en una variable
+    let freader = new FileReader();
+    freader.readAsDataURL(input.files[0]);
+    freader.onloadend = function(event){
+      const imagen64 = event.target.result;
 
-    productos.push({ nombre, precio });
-    localStorage.setItem("productos", JSON.stringify(productos));
-    renderProductos();
-    form.reset();
+      productos.push({ nombre, precio, descripcion, imagen: imagen64});
+      localStorage.setItem("productos", JSON.stringify(productos));
+      renderProductos();
+      form.reset();
+    };
   });
 
   window.eliminarProducto = function (index) {

@@ -89,3 +89,8 @@ ul#lista-productos li button {
 ul#lista-productos li button:hover {
   background-color: #c0392b;
 }
+
+label, #imagen{
+  color: gray;
+  font-size: 13px;
+}
