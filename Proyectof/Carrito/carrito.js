@@ -8,24 +8,50 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (carrito.length === 0) {
     carritoLista.innerHTML = '<p>El carrito está vacío.</p>';
+    totalElemento.textContent = '';
     return;
   }
 
   carrito.forEach((producto, index) => {
     const item = document.createElement("div");
+    item.classList.add("carrito-item");
+
     const subtotal = producto.precio * (producto.cantidad || 1);
     total += subtotal;
 
-    item.classList.add("carrito-item");
-    item.innerHTML = `
+    const img = document.createElement("img");
+    img.src = `../productos/Resources/${producto.nombre}.png`;
+    img.alt = producto.nombre;
+    img.onerror = function () {
+      this.src = '../productos/Resources/default.png';
+    };
+
+    const info = document.createElement("div");
+    info.innerHTML = `
       <p><strong>${producto.nombre}</strong></p>
       <p>Precio: $${producto.precio} x ${producto.cantidad || 1} = <strong>$${subtotal}</strong></p>
-      <button onclick="eliminarProducto(${index})">Eliminar</button>
     `;
+
+    const eliminarBtn = document.createElement("button");
+    eliminarBtn.textContent = "Eliminar";
+    eliminarBtn.onclick = function () {
+      eliminarProducto(index);
+    };
+
+    item.appendChild(img);
+    item.appendChild(info);
+    item.appendChild(eliminarBtn);
+
     carritoLista.appendChild(item);
   });
 
-  totalElemento.textContent = `Total: $${total}`;
+  const iva = total * 0.16;
+  const totalConIVA = total + iva;
+  totalElemento.innerHTML = `
+    Subtotal: $${total.toFixed(2)}<br>
+    IVA (16%): $${iva.toFixed(2)}<br>
+    <strong>Total: $${totalConIVA.toFixed(2)}</strong>
+  `;
 });
 
 function eliminarProducto(index) {

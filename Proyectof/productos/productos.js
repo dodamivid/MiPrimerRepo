@@ -5,8 +5,16 @@ document.addEventListener("DOMContentLoaded", function () {
   const productosBase = [
     { nombre: "Croquetas para perro", precio: 500 },
     { nombre: "Juguete para gato", precio: 200 },
-    { nombre: "Cama para mascota", precio: 800 }
+    { nombre: "Cama para mascota", precio: 800 },
+    { nombre: "Collar reflectante", precio: 150 },
+    { nombre: "Shampoo antipulgas", precio: 120 },
+    { nombre: "Transportadora chica", precio: 650 },
+    { nombre: "Rascador para gatos", precio: 400 },
+    { nombre: "Pelota interactiva", precio: 180 },
+    { nombre: "Bebedero automático", precio: 550 },
+    { nombre: "Kit de cepillos", precio: 220 }
   ];
+  
 
   const productosGuardados = JSON.parse(localStorage.getItem("productos")) || [];
 

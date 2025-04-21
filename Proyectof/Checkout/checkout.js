@@ -1,11 +1,19 @@
 document.addEventListener("DOMContentLoaded", function () {
   const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-  const totalElemento = document.getElementById("total");
+  const resumenLista = document.getElementById("resumen-lista");
+  const resumenTotal = document.getElementById("resumen-total");
   const form = document.getElementById("checkout-form");
 
   let total = 0;
-  carrito.forEach(p => total += p.precio);
-  totalElemento.textContent = `Total: $${total}`;
+
+  carrito.forEach(p => {
+    const li = document.createElement("li");
+    li.textContent = `${p.nombre} - $${p.precio}`;
+    resumenLista.appendChild(li);
+    total += p.precio;
+  });
+
+  resumenTotal.textContent = `Total: $${total}`;
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
@@ -26,10 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     alert(`¡Gracias por tu compra, ${nombre}!\nTu pedido será enviado a: ${direccion}`);
 
-    // Limpiamos el carrito después de comprar
     localStorage.removeItem("carrito");
-
-    // Redirigir a la página de inicio o mostrar mensaje de confirmación
     window.location.href = "../inicio/index.html";
   });
 });

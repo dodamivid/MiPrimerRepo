@@ -20,12 +20,14 @@
         </ul>
     </nav>
 </header>
-  <div class="carrito-container">
-    <h2>Carrito de Compras</h2>
-    <div id="carrito-lista"></div>
-    <p id="total">Total: $0</p>
-    <button onclick="vaciarCarrito()">Vaciar Carrito</button>
-  </div>
+<main>
+  <h2>🛒 Tu Carrito</h2>
+  <div id="carrito-lista"></div>
+  <div id="total" class="total-carrito"></div>
+  <button onclick="vaciarCarrito()" class="btn-vaciar">Vaciar Carrito</button>
+  <a href="../productos/productos.html" class="btn-seguir">← Seguir comprando</a>
+  <a href="../Checkout/checkout.html" class="btn-checkout">Finalizar compra →</a>
+</main>
 
   <script src="carrito.js"></script>
 </body>

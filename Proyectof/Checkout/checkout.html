@@ -14,35 +14,41 @@
         <li><a href="../inicio/index.html">Inicio</a></li>
         <li><a href="../productos/productos.html">Productos</a></li>
         <li><a href="../Carrito/carrito.html">Carrito</a></li>
-        <li><a href="../checkout.html">Checkout</a></li>
+        <li><a href="../Checkout/checkout.html">Checkout</a></li>
         <li><a href="../Panel de Administracion/admin.html">Admin</a></li>
     </ul>
     </nav>
   </header>
 
-  <div class="checkout-container">
-    <h2>Finalizar Compra</h2>
-    
+  <main>
+    <h2>🧾 Finalizar Compra</h2>
+
+    <div class="resumen-compra">
+      <h3>Resumen de tu pedido</h3>
+      <ul id="resumen-lista"></ul>
+      <p id="resumen-total"></p>
+    </div>
+
     <form id="checkout-form">
-      <label for="nombre">Nombre completo:</label>
-      <input type="text" id="nombre" required>
-
-      <label for="direccion">Dirección:</label>
-      <input type="text" id="direccion" required>
-
-      <label for="pago">Método de pago:</label>
-      <select id="pago" required>
-        <option value="">Selecciona...</option>
+      <h3>Detalles de envío</h3>
+      <input type="text" id="nombre" placeholder="Nombre completo">
+      <input type="text" id="direccion" placeholder="Dirección de envío">
+      <select id="pago">
+        <option value="">Selecciona método de pago</option>
         <option value="tarjeta">Tarjeta de crédito</option>
         <option value="paypal">PayPal</option>
-        <option value="efectivo">Efectivo</option>
+        <option value="oxxo">OXXO</option>
       </select>
 
-      <p id="total">Total: $0</p>
+      <div class="pagos-iconos">
+        <img src="../Resources/visa.png" alt="Visa">
+        <img src="../Resources/paypal.png" alt="PayPal">
+        <img src="../Resources/oxxo.png" alt="OXXO">
+      </div>
 
-      <button type="submit">Confirmar Compra</button>
+      <button type="submit">Confirmar compra</button>
     </form>
-  </div>
+  </main>
 
   <script src="checkout.js"></script>
 </body>
