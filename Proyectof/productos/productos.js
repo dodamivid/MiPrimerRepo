@@ -46,3 +46,9 @@ function agregarAlCarrito(nombre, precio) {
   localStorage.setItem("carrito", JSON.stringify(carrito));
   alert(`Producto agregado al carrito:\n${nombre} - $${precio}`);
 }
+ // Añadir al carrito desde las tarjetas
+ document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('click', () => {
+    updateCart(cartCount + 1);
+  });
+});

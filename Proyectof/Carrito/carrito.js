@@ -65,3 +65,9 @@ function vaciarCarrito() {
   localStorage.removeItem("carrito");
   location.reload();
 }
+// Añadir al carrito desde las tarjetas
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('click', () => {
+    updateCart(cartCount + 1);
+  });
+});

@@ -45,3 +45,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   renderProductos();
 });
+// Añadir al carrito desde las tarjetas
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('click', () => {
+    updateCart(cartCount + 1);
+  });
+});
+

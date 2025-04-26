@@ -38,3 +38,9 @@ document.addEventListener("DOMContentLoaded", function () {
     window.location.href = "../inicio/index.html";
   });
 });
+// Añadir al carrito desde las tarjetas
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('click', () => {
+    updateCart(cartCount + 1);
+  });
+});
