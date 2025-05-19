@@ -328,3 +328,162 @@ main {
     justify-content: center;
   }
 }
+
+/* Estilo para el enlace “Ver más” dentro de cada .producto */
+.producto a {
+  background-color: transparent !important;  /* quita cualquier fondo */
+  color: #000 !important;                     /* texto negro */
+  text-decoration: none;                      /* quita el subrayado */
+  display: block;                             /* ocupa todo el ancho del contenedor */
+  text-align: center;                         /* centra el texto */
+  margin-top: 10px;                           /* separación desde el botón de arriba */
+}
+
+/* Opcional: efecto hover */
+.producto a:hover {
+  color: #333; /* un negro un poco más suave al pasar el ratón */
+}
+/* === Estilo para el filtro de categorías === */
+
+label[for="filtro-cat"] {
+  font-weight: bold;
+  color: #ff9900;
+  margin-right: 8px;
+  font-size: 1rem;
+}
+
+#filtro-cat {
+  padding: 8px 12px;
+  border: 2px solid #ff9900;
+  border-radius: 8px;
+  background-color: #fff7f0;
+  color: #333;
+  font-size: 1rem;
+  font-weight: bold;
+  appearance: none;              /* elimina estilos por defecto */
+  background-image: url('../icons/arrow-down.svg');
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  cursor: pointer;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#filtro-cat:focus {
+  outline: none;
+  border-color: #cc7a00;
+  box-shadow: 0 0 5px rgba(204, 122, 0, 0.5);
+}
+
+/* Contenedor opcional para centrar label + select */
+
+.filtro-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+}
+/* Barra de búsqueda */
+.search-container {
+  flex: 1;
+  max-width: 500px;
+  margin:  20px;
+  margin-left: 1150px;
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  
+}
+
+.search-container input {
+  width: 100%;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 20px 0 0 20px;
+  font-size: 14px;
+  
+}
+
+.search-container button {
+  background-color: #FFAB03;
+  color: white;
+  border: none;
+  border-radius: 0 20px 20px 0;
+  cursor: pointer;
+  width: 20%;
+  padding: 8px 15px;
+ 
+}
+@media (max-width: 768px) {
+  .search-container {
+    max-width: 50%;
+    margin: 10px 0;
+  }
+
+  .search-container input {
+    font-size: 1rem;
+    padding: 10px;
+  }
+
+  .search-container button {
+    padding: 10px;
+    font-size: 1rem;
+  }
+}
+.quick-links li {
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+}
+
+
+
+.quick-links {
+  display: ;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+
+
+
+.quick-links a:hover {
+  color: #FC7F03;
+}
+
+.cart-icon {
+  position: relative;
+}
+
+.cart-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #FFAB03;
+  color: rgb(255, 255, 255);
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@media (max-width: 768px) {
+  .search-container {
+    max-width: 50%;
+    margin: 10px 0;
+  }
+
+  .search-container input {
+    font-size: 1rem;
+    padding: 10px;
+  }
+
+  .search-container button {
+    padding: 10px;
+    font-size: 1rem;
+  }
+}

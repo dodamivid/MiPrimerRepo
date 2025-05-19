@@ -1,43 +1,65 @@
-<!-- productos.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Productos - Tienda de Mascotas</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Productos - Tienda de Mascotas</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Mueve FontAwesome al head -->
+  <link 
+    rel="stylesheet" 
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  >
 </head>
 <body>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
   <header>
     <div class="header-container">
       <div class="top-bar">
         <div class="header-brand">
           <img src="../inicio/Recursos/Logo1.png" alt="Logo Tienda Mascotas" class="header-logo">
-          <img src="../inicio/Recursos/logo.png" alt="Nombre Tienda" class="header-logo1">
+          <img src="../inicio/Recursos/logo.png"  alt="Nombre Tienda"       class="header-logo1">
         </div>
-        
-  
-      <nav class="main-nav">
-        <ul>
-          <li><a href="../inicio/index.html">Inicio</a></li>
-          <li><a href="../productos/productos.html">Productos</a></li>
-          <li><a href="../Carrito/carrito.html">Carrito</a></li>
-          <li><a href="../Checkout/checkout.html">Checkout</a></li>
-          <li><a href="../Panel de Administracion/admin.html">Admin</a></li>
-        </ul>
-      </nav>
+        <div class="search-container">
+          <form id="search-form" style="display: flex; align-items: center;">
+            <input type="text" id="search-input" placeholder="Buscar...">
+            <button type="submit"><i class="fas fa-search"></i></button>
+          </form>
+        </div>
+        <div class="quick-links">
+          <a href="#"><i class="fas fa-question-circle"></i> Ayuda</a>
+          <a href="#"><i class="fas fa-map-marker-alt"></i> Ubicación</a>
+          <a href="../Carrito/carrito.html" class="cart-icon">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count">0</span>
+          </a>
+        </div>
+      </div>
+        <nav class="main-nav">
+          <ul>
+            <li><a href="../inicio/index.html">Inicio</a></li>
+            <li><a href="../productos/productos.html">Productos</a></li>
+            <li><a href="../Carrito/carrito.html">Carrito</a></li>
+            <li><a href="../Checkout/checkout.html">Checkout</a></li>
+            <li><a href="../Panel de Administracion/admin.html">Admin</a></li>
+          </ul>
+        </nav>
+    
     </div>
   </header>
+ 
+  <label for="filtro-cat">Filtrar por categoría:</label>
+  <select id="filtro-cat">
   
-    <main>
-        <h2>Lista de Productos</h2>
-        <div id="productos-lista"></div>
-        
-    </main>
+    <option value="All">Todas</option>
+    <!-- options se llenan desde productos.js -->
+  </select>
+
+  <main>
+    <h2>Lista de Productos</h2>
+    <div id="productos-lista"></div>
+  </main>
     <script src="productos.js"></script>
-</body>
+
 <footer class="site-footer">
   <div class="footer-container">
     <!-- Columna 1: Contacto -->
@@ -100,6 +122,7 @@
     </div>
   </div>
 </footer>
+</body>
 </html>
 
 

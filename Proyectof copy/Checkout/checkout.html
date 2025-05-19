@@ -29,36 +29,53 @@
   </header>
   <body>
 
-  <main>
-    <h2>🧾 Finalizar Compra</h2>
-
-    <div class="resumen-compra">
-      <h3>Resumen de tu pedido</h3>
-      <ul id="resumen-lista"></ul>
-      <p id="resumen-total"></p>
-    </div>
-
-    <form id="checkout-form">
-      <h3>Detalles de envío</h3>
-      <input type="text" id="nombre" placeholder="Nombre completo">
-      <input type="text" id="direccion" placeholder="Dirección de envío">
-      <select id="pago">
-        <option value="">Selecciona método de pago</option>
-        <option value="tarjeta">Tarjeta de crédito</option>
-        <option value="paypal">PayPal</option>
-        <option value="oxxo">OXXO</option>
-      </select>
-
-      <div class="pagos-iconos">
-        <i class="fab fa-cc-visa" title="Visa"></i>
-        <i class="fab fa-cc-paypal" title="PayPal"></i>
-        <i class="fas fa-barcode" title="OXXO"></i>
+    <main>
+      <h2>🧾 Finalizar Compra</h2>
+  
+      <div class="resumen-compra">
+        <h3>Resumen de tu pedido</h3>
+        <ul id="resumen-lista"></ul>
+        <p id="resumen-total"></p>
       </div>
-      
-
-      <button type="submit">Confirmar compra</button>
-    </form>
-  </main>
+  
+      <form id="checkout-form">
+        <h3>Detalles de envío</h3>
+        <input type="text" id="nombre" placeholder="Nombre completo" required>
+        <input type="email" id="email" placeholder="Correo electrónico" required>
+        <input type="tel" id="telefono" placeholder="Teléfono" required>
+        <input type="text" id="direccion1" placeholder="Dirección (calle y número)" required>
+        <input type="text" id="direccion2" placeholder="Apartamento, piso, etc. (opcional)">
+        <input type="text" id="ciudad" placeholder="Ciudad" required>
+        <input type="text" id="estado" placeholder="Estado/Provincia" required>
+        <input type="text" id="codigo-postal" placeholder="Código Postal" required>
+        <select id="pais" required>
+          <option value="">País</option>
+          <option value="México">México</option>
+          <option value="USA">Estados Unidos</option>
+          <option value="Otro">Otro</option>
+        </select>
+        <select id="metodo-envio" required>
+          <option value="estandar">Envío estándar</option>
+          <option value="express">Envío express</option>
+        </select>
+  
+        <h3>Método de pago</h3>
+        <select id="pago" required>
+          <option value="">Selecciona método de pago</option>
+          <option value="tarjeta">Tarjeta de crédito</option>
+          <option value="paypal">PayPal</option>
+          <option value="oxxo">OXXO</option>
+        </select>
+  
+        <div class="pagos-iconos">
+          <img src="../Checkout/Resorces/visa.png" alt="Visa">
+          <img src="../Checkout/Resorces/paypal.png" alt="PayPal">
+          <img src="../Checkout/Resorces/oxxo.png" alt="OXXO">
+        </div>
+  
+        <button type="submit">Confirmar compra</button>
+      </form>
+    </main>
 
   <script src="checkout.js"></script>
 </body>
