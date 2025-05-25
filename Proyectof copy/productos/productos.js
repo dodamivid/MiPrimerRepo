@@ -10,17 +10,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 1) Productos base
   const productosBase = [
-    { nombre: "Croquetas para perro", precio: 500, categoria: "Perros", imagen: "../productos/Resources/Croquetas para perro.png" },
-    { nombre: "Juguete para gato", precio: 200, categoria: "Gatos", imagen: "../productos/Resources/Juguete para gato.png" },
-    { nombre: "Cama para mascota", precio: 800, categoria: "Perros", imagen: "../productos/Resources/Cama para mascota.png" },
-    { nombre: "Collar reflectante", precio: 150, categoria: "Perros", imagen: "../productos/Resources/Collar reflectante.png" },
-    { nombre: "Shampoo antipulgas", precio: 120, categoria: "Perros", imagen: "../productos/Resources/Shampoo antipulgas.png" },
-    { nombre: "Transportadora chica", precio: 650, categoria: "Perros", imagen: "../productos/Resources/Transportadora chica.png" },
-    { nombre: "Rascador para gatos", precio: 400, categoria: "Gatos", imagen: "../productos/Resources/Rascador para gatos.png" },
-    { nombre: "Pelota interactiva", precio: 180, categoria: "Gatos", imagen: "../productos/Resources/Pelota interactiva.png" },
-    { nombre: "Bebedero automático", precio: 550, categoria: "Aves", imagen: "../productos/Resources/Bebedero automático.png" },
-    { nombre: "Kit de cepillos", precio: 220, categoria: "Aves", imagen: "../productos/Resources/Kit de cepillos.png" }
+    //{ nombre: "Croquetas para perro", precio: 500, categoria: "Perros", imagen: "../productos/Resources/Croquetas para perro.png" },
+    //{ nombre: "Juguete para gato", precio: 200, categoria: "Gatos", imagen: "../productos/Resources/Juguete para gato.png" },
+    //{ nombre: "Cama para mascota", precio: 800, categoria: "Perros", imagen: "../productos/Resources/Cama para mascota.png" },
+    //{ nombre: "Collar reflectante", precio: 150, categoria: "Perros", imagen: "../productos/Resources/Collar reflectante.png" },
+    //{ nombre: "Shampoo antipulgas", precio: 120, categoria: "Perros", imagen: "../productos/Resources/Shampoo antipulgas.png" },
+    //{ nombre: "Transportadora chica", precio: 650, categoria: "Perros", imagen: "../productos/Resources/Transportadora chica.png" },
+    //{ nombre: "Rascador para gatos", precio: 400, categoria: "Gatos", imagen: "../productos/Resources/Rascador para gatos.png" },
+    //{ nombre: "Pelota interactiva", precio: 180, categoria: "Gatos", imagen: "../productos/Resources/Pelota interactiva.png" },
+    //{ nombre: "Bebedero automático", precio: 550, categoria: "Aves", imagen: "../productos/Resources/Bebedero automático.png" },
+    //{ nombre: "Kit de cepillos", precio: 220, categoria: "Aves", imagen: "../productos/Resources/Kit de cepillos.png" }
   ];
+
+  fetch("../ObtenerProductos.php")
+    .then(res => res.json())
+    .then(data => {
+      productosBase = data;
+      renderProductos(filtro.value, searchInput.value.trim());
+    });
 
   // 2) Productos del panel de admin
   const productosGuardados = JSON.parse(localStorage.getItem("productos")) || [];
