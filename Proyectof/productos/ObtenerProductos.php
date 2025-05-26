@@ -1,4 +1,5 @@
 <?php 
+//require_once __DIR__ . '/../Conexion.php';
 $host = "mysql";
 $user = "root";
 $pass = "12345";
