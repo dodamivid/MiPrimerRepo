@@ -1,6 +1,6 @@
 <?php 
 //require_once __DIR__ . '/../Conexion.php';
-$host = "mysql";
+$host = "mydb";
 $user = "root";
 $pass = "12345";
 $db = "tienda";
@@ -11,7 +11,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error); //excepcion al fallar la conexion 
 }
 
-$query = "select Nombre, Precio, Categoria, Imagen from Productos"; 
+$query = "select Nombre, Precio, Categoria, Imagen, idProductos from Productos"; 
 $result = $conn->query($query); //ejecutar y gurdar resultado
 
 $Productos = [];
