@@ -1,5 +1,5 @@
 <?php 
-$host = "mysql";
+$host = "mydb";
 $user = "root";
 $pass = "12345";
 $db = "tienda";
@@ -10,7 +10,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error); 
 }
 
-$query = "select distinct Categoria from Productos"; 
+$query = "select idCategorias, name, Imagen from Categorias"; 
 $result = $conn->query($query); 
 
 $Categorias = [];
