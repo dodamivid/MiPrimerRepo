@@ -23,8 +23,9 @@ if (!$data) {
 }
 
 $Name = $conn->real_escape_string($data['name']);
+$Imagen = $conn->real_escape_string($data['Imagen']);
 
-$query = "INSERT INTO Categorias (name) VALUES ('$Name')";
+$query = "INSERT INTO Categorias (name, imagen) VALUES ('$Name', '$Imagen')";
 
 if ($conn->query($query)) {
     echo json_encode(['success' => true]);

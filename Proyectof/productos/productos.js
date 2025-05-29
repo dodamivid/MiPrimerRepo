@@ -11,9 +11,10 @@ window.addEventListener('DOMContentLoaded', () => {
     fetch('getCat.php')
         .then(response => response.json())
         .then(data => {
+            //categoria.innerHTML = `<option value="All">Todas</option>`; innecesario?
             for (let i = 0; i < data.length; i++) {
                 categoria.innerHTML += `
-                <option value="${data[i].Categoria}">${data[i].Categoria}</option>
+                <option value="${data[i].name}">${data[i].name}</option>
                 `;
             };
         });
@@ -22,6 +23,7 @@ window.addEventListener('DOMContentLoaded', () => {
     categoria.addEventListener('change', () => {
 
         if (categoria.value === 'All') {
+            Contenedor.innerHTML = '';
             renderProducts();
         } else {
             let datos = ProdCategory(categoria.value);
@@ -30,7 +32,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 for (let i = 0; i < data.length; i++) {
                     Contenedor.innerHTML += `
                 <div class="producto">
-                    <img id="prodImg" src="Resources/Cama.png">
+                    <img id="prodImg" src=../../"${Productos[i].Imagen}">
                     <h3>${data[i].Nombre}</h3>
                     <p>Precio: $${data[i].Precio}</p>
                     <button id="agregarBTN">Agregar al carrito</button>
@@ -57,7 +59,7 @@ window.addEventListener('DOMContentLoaded', () => {
         for (let i = 0; i < data.length; i++) {
                     Contenedor.innerHTML += `
                 <div class="producto">
-                    <img id="prodImg" src="Resources/Cama.png">
+                    <img id="prodImg" src=../../"${Productos[i].Imagen}">
                     <h3>${data[i].Nombre}</h3>
                     <p>Precio: $${data[i].Precio}</p>
                     <button id="agregarBTN">Agregar al carrito</button>
@@ -90,7 +92,7 @@ function renderProducts() {
             for (let i = 0; i < Productos.length; i++) {
                 Contenedor.innerHTML += `
                 <div class="producto">
-                    <img id="prodImg" src="Resources/Cama.png">
+                    <img id="prodImg" src="../../${Productos[i].Imagen}">
                     <h3>${Productos[i].Nombre}</h3>
                     <p>Precio: $${Productos[i].Precio}</p>
                     <button id="agregarBTN">Agregar al carrito</button>

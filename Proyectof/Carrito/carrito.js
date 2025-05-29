@@ -1,74 +1,75 @@
+//carrito actualizado para base de datos
 // carrito.js
-// Actualizado: filtrado de entradas inválidas y sin recargas infinitas
-
 document.addEventListener("DOMContentLoaded", renderCarrito);
 
 function renderCarrito() {
   const lista = document.getElementById("carrito-lista");
   const totalEl = document.getElementById("total");
-  let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
-  // Filtrar productos inválidos (sin nombre o undefined)
-  carrito = carrito.filter(p => p && p.nombre);
-  localStorage.setItem("carrito", JSON.stringify(carrito));
+  fetch("../backend/carrito.php?accion=listar")
+    .then(res => res.json())
+    .then(carrito => {
+      lista.innerHTML = "";
+      totalEl.innerHTML = "";
 
-  lista.innerHTML = "";
-  let total = 0;
+      if (!carrito.length) {
+        lista.innerHTML = "<p>El carrito está vacío.</p>";
+        return;
+      }
 
-  if (carrito.length === 0) {
-    lista.innerHTML = "<p>El carrito está vacío.</p>";
-    totalEl.innerHTML = "";
-    return;
-  }
+      let total = 0;
 
-  carrito.forEach((p, index) => {
-    const item = document.createElement("div");
-    item.className = "carrito-item";
+      carrito.forEach(p => {
+        const item = document.createElement("div");
+        item.className = "carrito-item";
 
-    // Imagen con fallback
-    const img = document.createElement("img");
-    img.src = p.imagen || `../productos/Resources/${encodeURIComponent(p.nombre)}.png`;
-    img.alt = p.nombre;
-    img.addEventListener("error", () => {
-      img.onerror = null;
-      img.src = "../productos/Resources/default.png";
+        const img = document.createElement("img");
+        img.src = p.Imagen || `../productos/Resources/${encodeURIComponent(p.Nombre)}.png`;
+        img.alt = p.Nombre;
+        img.onerror = () => {
+          img.src = "../productos/Resources/default.png";
+        };
+
+        const nombreEl = document.createElement("p");
+        nombreEl.innerHTML = `<strong>${p.Nombre}</strong>`;
+
+        const cantidad = p.Cantidad || 1;
+        const subtotal = p.Precio * cantidad;
+        total += subtotal;
+
+        const precioEl = document.createElement("p");
+        precioEl.textContent = `Precio: $${p.Precio} x ${cantidad} = $${subtotal.toFixed(2)}`;
+
+        const btnEliminar = document.createElement("button");
+        btnEliminar.textContent = "Eliminar";
+        btnEliminar.onclick = () => eliminarProducto(p.id);
+
+        item.append(img, nombreEl, precioEl, btnEliminar);
+        lista.appendChild(item);
+      });
+
+      const iva = total * 0.16;
+      totalEl.innerHTML = `
+        Subtotal: $${total.toFixed(2)}<br>
+        IVA (16%): $${iva.toFixed(2)}<br>
+        <strong>Total: $${(total + iva).toFixed(2)}</strong>
+      `;
     });
-
-    // Nombre y subtotal
-    const nombreEl = document.createElement("p");
-    nombreEl.innerHTML = `<strong>${p.nombre}</strong>`;
-    const cantidad = p.cantidad || 1;
-    const subtotal = p.precio * cantidad;
-    total += subtotal;
-    const precioEl = document.createElement("p");
-    precioEl.textContent = `Precio: $${p.precio} x ${cantidad} = $${subtotal.toFixed(2)}`;
-
-    // Botón eliminar
-    const btnEliminar = document.createElement("button");
-    btnEliminar.textContent = "Eliminar";
-    btnEliminar.addEventListener("click", () => eliminarProducto(index));
-
-    item.append(img, nombreEl, precioEl, btnEliminar);
-    lista.appendChild(item);
-  });
-
-  // Mostrar totales con IVA
-  const iva = total * 0.16;
-  totalEl.innerHTML = `
-    Subtotal: $${total.toFixed(2)}<br>
-    IVA (16%): $${iva.toFixed(2)}<br>
-    <strong>Total: $${(total + iva).toFixed(2)}</strong>
-  `;
 }
 
-function eliminarProducto(index) {
-  const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-  carrito.splice(index, 1);
-  localStorage.setItem("carrito", JSON.stringify(carrito));
-  renderCarrito();
+function eliminarProducto(id) {
+  fetch(`../backend/carrito.php?accion=eliminar&id=${id}`)
+    .then(res => res.json())
+    .then(resp => {
+      if (resp.status === "ok") {
+        renderCarrito();
+      } else {
+        alert("Error al eliminar");
+      }
+    });
 }
 
 function vaciarCarrito() {
-  localStorage.removeItem("carrito");
-  renderCarrito();
+  // Opcional: puedes crear un endpoint para borrar todo
+  alert("Función 'Vaciar Carrito' aún no implementada con base de datos.");
 }

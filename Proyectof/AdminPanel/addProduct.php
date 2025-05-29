@@ -26,8 +26,9 @@ $nombre = $conn->real_escape_string($data['Nombre']);
 $precio = floatval($data['Precio']);
 $categoria = $conn->real_escape_string($data['Categoria']);
 $descripcion = $conn->real_escape_string($data['descripcion']);
+$ruta = $conn->real_escape_string($data['Imagen']);
 
-$query = "INSERT INTO Productos (Nombre, Precio, Categoria, Descripcion) VALUES ('$nombre', $precio, '$categoria', '$descripcion')";
+$query = "INSERT INTO Productos (Nombre, Precio, Categoria, Descripcion, Imagen) VALUES ('$nombre', $precio, '$categoria', '$descripcion', '$ruta')";
 
 if ($conn->query($query)) {
     echo json_encode(['success' => true]);

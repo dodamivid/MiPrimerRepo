@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("Connection failed: " . $conn->connect_error); //excepcion al fallar la conexion 
     }
 
-    $query = "select Nombre, Precio, Categoria, Imagen from Productos where Nombre = '$nombre'";
+    $query = "select Nombre, Precio, Categoria, Imagen from Productos where Nombre like '$nombre%'";
     $result = $conn->query($query); //ejecutar y gurdar resultado
 
     $Productos = [];

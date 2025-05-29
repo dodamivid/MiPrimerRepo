@@ -24,10 +24,30 @@ window.addEventListener('DOMContentLoaded', function () {
     //añadir un producto :)
     FormularioProd.addEventListener('submit', function (e) {
         e.preventDefault();
+        const formData = new FormData(FormularioProd);
+        fetch('UploadFile.php',{
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(result => {
+            if (result.success) {
+                console.log('Imagen subida correctamente');
+                renderProducts();
+                FormularioProd.reset();
+            } else {
+                console.error('Error al subir la imagen:', result.error);
+            }
+        });
+
         const Nombre = document.getElementById("nombre").value;
         const Precio = document.getElementById("precio").value;
         const Categoria = document.getElementById("categoria-producto").value;
         const descripcion = document.getElementById("descripcion").value;
+        // Obtener nombre de la imagen
+        let imagenInput = document.getElementById("imagen");
+        let fileName = imagenInput.files[0] ? imagenInput.files[0].name : "";
+        let Imagen = "Proyectof/AdminPanel/Uploads/" + fileName;
 
 
         fetch('addProduct.php', {
@@ -39,7 +59,8 @@ window.addEventListener('DOMContentLoaded', function () {
                 Nombre,
                 Precio,
                 Categoria,
-                descripcion
+                descripcion,
+                Imagen
             })
         })
             .then(res => res.json())
@@ -59,20 +80,40 @@ window.addEventListener('DOMContentLoaded', function () {
     añadirCat.addEventListener('click', function (e) {
         e.preventDefault();
         const nombreCategoria = document.getElementById("nueva-categoria").value;
+        let imagenCat = document.getElementById('imagen-categoria');
+        let fileNameCat = imagenCat.files[0] ? imagenCat.files[0].name : "";
+        let Imagen = "Proyectof/AdminPanel/Uploads/" + fileNameCat;
 
+        if (imagenCat.files[0]){
+            const formData = new FormData();
+            formData.append('imagen', imagenCat.files[0]);
+            fetch('UploadFile.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(result => {
+                if (result.success) {
+                    console.log('Imagen de categoría subida correctamente');
+                } else {
+                    console.error('Error al subir la imagen de categoría:', result.error);
+                }
+            });
+        }
+        
         fetch('addCat.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ name: nombreCategoria })
+            body: JSON.stringify({ name: nombreCategoria, Imagen})
         })
             .then(res => res.json())
             .then(result => {
                 if (result.success) {
                     console.log('Categoría añadida correctamente');
                     renderCat();
-                    document.getElementById("nombre-categoria").value = ''; // Limpiar el campo de entrada
+                    document.getElementById("nueva-categoria").value = ''; // Limpiar el campo de entrada
                 } else {
                     console.error('Error al añadir la categoría:', result.error);
                 }
@@ -132,7 +173,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 for (let i = 0; i < data.length; i++) {
                     listaCategorias.innerHTML += `
                     <li>
-                        <img src="" width="30" height="30" style="object-fit:cover; border-radius:4px; margin-bottom:8px;">
+                        <img src="../../${categorias[i].Imagen}" width="30" height="30" style="object-fit:cover; border-radius:4px; margin-bottom:8px;">
                         ${categorias[i].name}
                         <button type="button" class="btn-eliminar-cat" data-id="${categorias[i].idCategorias}">Eliminar</button>
                     </li>

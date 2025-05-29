@@ -24,10 +24,10 @@ document.addEventListener("DOMContentLoaded", function () {
   // =====================
   // CONTADOR DEL CARRITO
   // =====================
-  function actualizarContadorCarrito() {
-    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-    const contador = document.querySelector('.cart-count');
-    if (contador) contador.textContent = carrito.length;
+  function actualizarContadorCarrito() { //actualizar cuando el cliente inicie sesion y se sepa su id
+    //const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+    //const contador = document.querySelector('.cart-count'); //YA NO SE USA
+    //if (contador) contador.textContent = carrito.length;
   }
 
   actualizarContadorCarrito();
@@ -40,11 +40,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (searchForm && searchInput) {
     searchForm.addEventListener('submit', function (e) {
-      e.preventDefault();
+      /*e.preventDefault();
       const query = searchInput.value.trim();
       if (query) {
         window.location.href = `../productos/productos.html?search=${encodeURIComponent(query)}`;
       }
+      */ //Actualizar***
     });
   }
 
@@ -53,8 +54,21 @@ document.addEventListener("DOMContentLoaded", function () {
   // =====================
   function renderDynamicCategories() {
     const categoriesContainer = document.getElementById('dynamic-categories');
-    const categorias = JSON.parse(localStorage.getItem('categorias')) || []; // Obtener categorías del localStorage
+    const categorias = [];
+    fetch('../productos/getCat.php')
+      .then(response => response.json())
+      .then(data => {
+        for (let i = 0; i < data.length; i++) {
+          categoriesContainer.innerHTML += `
+            <div class="card">
+              <img src='../${data[i].Imagen ? data[i].Imagen.replace("Proyectof/", "") : ""}'>
+              <span class="categoria-titulo">${data[i].name}</span>
+            </div>
+          `;
+        }; 
+    });
 
+    /*
     if (categoriesContainer) {
       categoriesContainer.innerHTML = ''; // Limpiar contenedor actual
 
@@ -77,16 +91,16 @@ document.addEventListener("DOMContentLoaded", function () {
         categoriesContainer.innerHTML = '<p>No hay categorías disponibles.</p>';
       }
     }
+      */
   }
 
   // Llamar a la función para renderizar las categorías al cargar la página
   renderDynamicCategories();
 
-
-  // Debug
-  console.log("✅ JS cargado correctamente");
 });
-document.addEventListener("DOMContentLoaded", function () {
+
+/* PORQUE ESTA DUPLICADO?
+document.addEventListener("DOMContentLoaded", function () { 
  
   
   // =====================
@@ -149,4 +163,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Debug
   console.log("✅ JS cargado correctamente");
-});
+}); */

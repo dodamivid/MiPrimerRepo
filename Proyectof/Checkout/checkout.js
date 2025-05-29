@@ -1,5 +1,4 @@
 // checkout.js
-// Mostrar resumen con imágenes y manejar formulario con campos extendidos, incluyendo IVA
 
 document.addEventListener("DOMContentLoaded", () => {
   const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
@@ -7,7 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const resumenTotal = document.getElementById("resumen-total");
   const form = document.getElementById("checkout-form");
 
-  // Renderizar resumen de productos
   resumenLista.innerHTML = "";
   let subtotal = 0;
 
@@ -41,18 +39,18 @@ document.addEventListener("DOMContentLoaded", () => {
       subtotal += p.precio;
     });
 
-    // Calcular IVA al 16%
     const iva = subtotal * 0.16;
     const total = subtotal + iva;
 
-    // Mostrar subtotales, IVA y total
-    resumenTotal.innerHTML = 
+    resumenTotal.innerHTML =
       `Subtotal: $${subtotal.toFixed(2)}<br>` +
       `IVA (16%): $${iva.toFixed(2)}<br>` +
       `<strong>Total: $${total.toFixed(2)}</strong>`;
+
+    // Guardar total para usarlo en envío
+    form.dataset.total = total.toFixed(2);
   }
 
-  // Manejar envío del formulario
   form.addEventListener("submit", e => {
     e.preventDefault();
 
@@ -73,14 +71,44 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    alert(
-      `¡Gracias por tu compra, ${nombreInput}!\n` +
-      `Enviaremos tu pedido a: ${dir1}${dir2 ? ", " + dir2 : ""}, ${ciudad}, ${estado}, CP ${cp}, ${pais}.\n` +
-      `Te contactaremos al ${telefono} o ${email}.\n` +
-      `Método de envío: ${envio}, método de pago: ${pago}.`
-    );
+    const total = parseFloat(form.dataset.total);
+    const idVenta = Date.now() % 100000;
 
-    localStorage.removeItem("carrito");
-    window.location.href = "../inicio/index.html";
+    // Extraer solo los datos que el backend necesita de los productos
+    const productos = carrito.map(p => ({
+      nombre: p.nombre,
+      precio: p.precio
+    }));
+
+    fetch('http://localhost/Mi_Tienda/MiprimerRepo/MiPrimerRepo/Proyectof/Checkout/procces_checkout.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        idVenta,
+        nombre: nombreInput,
+        email,
+        telefono,
+        direccion1: dir1,
+        direccion2: dir2,
+        ciudad,
+        estado,
+        cp,
+        pais,
+        envio,
+        pago,
+        total,
+        productos
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      alert(data.message);
+      localStorage.removeItem("carrito");
+      window.location.href = "../inicio/index.html";
+    })
+    .catch(err => {
+      console.error(err);
+      alert("❌ Error al registrar la compra.");
+    });
   });
 });
