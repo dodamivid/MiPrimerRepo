@@ -1,11 +1,8 @@
 <?php
-$host = "mydb";
-$user = "root";
-$pass = "12345";
-$db = "tienda";
+require_once(realpath(__DIR__ . '/../../conexion.php'));
 
 
-$conn = new mysqli($host, $user, $pass, $db);
+
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error); //excepcion al fallar la conexion 
 }

@@ -1,15 +1,8 @@
 <?php
+include("../Carrito/conexion.php"); // Usa la conexión correcta con puerto 3307
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json");
-
-$conexion = new mysqli("localhost:3306", "root", "pestalosi1", "tienda");
-
-if ($conexion->connect_error) {
-    http_response_code(500);
-    echo json_encode(["error" => "Conexión fallida: " . $conexion->connect_error]);
-    exit();
-}
 
 // Leer datos JSON
 $input = json_decode(file_get_contents("php://input"), true);
@@ -29,7 +22,7 @@ $productos   = $input["productos"];
 $idVenta     = $input["idVenta"];
 
 // Buscar cliente por email o teléfono
-$consultaCliente = $conexion->prepare("SELECT idClientes FROM Clientes WHERE Telefono = ? OR ? IN (SELECT ?)");
+$consultaCliente = $conn->prepare("SELECT idClientes FROM Clientes WHERE Telefono = ? OR ? IN (SELECT ?)");
 $consultaCliente->bind_param("sss", $telefono, $email, $email);
 $consultaCliente->execute();
 $resultado = $consultaCliente->get_result();
@@ -40,21 +33,21 @@ if ($resultado->num_rows > 0) {
     $idCliente = $fila["idClientes"];
 } else {
     // Generar nuevo idCliente
-    $idCliente = rand(10000, 99999); // o usa AUTO_INCREMENT en tabla modificada
+    $idCliente = rand(10000, 99999); // o usa AUTO_INCREMENT en la tabla Clientes
 
     // Insertar nuevo cliente
-    $stmtCliente = $conexion->prepare("INSERT INTO Clientes (idClientes, Direccion, Telefono, Ciudad, Estado, CodigoPostal, Pais) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmtCliente = $conn->prepare("INSERT INTO Clientes (idClientes, Direccion, Telefono, Ciudad, Estado, CodigoPostal, Pais) VALUES (?, ?, ?, ?, ?, ?, ?)");
     $stmtCliente->bind_param("issssss", $idCliente, $direccion1, $telefono, $ciudad, $estado, $cp, $pais);
     $stmtCliente->execute();
 }
 
 // Insertar venta
-$stmtVenta = $conexion->prepare("INSERT INTO Ventas (idVentas, idClient, total, fecha) VALUES (?, ?, ?, CURDATE())");
+$stmtVenta = $conn->prepare("INSERT INTO Ventas (idVentas, idClient, total, fecha) VALUES (?, ?, ?, CURDATE())");
 $stmtVenta->bind_param("iid", $idVenta, $idCliente, $total);
 $stmtVenta->execute();
 
 // Insertar productos en carrito
-$stmtCarrito = $conexion->prepare("INSERT INTO carrito (id, idCliente, idprod, Cantidad) VALUES (?, ?, ?, ?)");
+$stmtCarrito = $conn->prepare("INSERT INTO carrito (id, idCliente, idprod, Cantidad) VALUES (?, ?, ?, ?)");
 foreach ($productos as $index => $prod) {
     $idCarrito = $idVenta * 10 + $index;
     $idProd = $prod["idProductos"];

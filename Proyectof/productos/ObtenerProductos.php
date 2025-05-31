@@ -1,25 +1,20 @@
 <?php 
-//require_once __DIR__ . '/../Conexion.php';
-$host = "mydb";
-$user = "root";
-$pass = "12345";
-$db = "tienda";
+require_once(realpath(__DIR__ . '/../../conexion.php'));
 
-
-$conn = new mysqli($host, $user, $pass, $db);
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error); //excepcion al fallar la conexion 
+    die("Connection failed: " . $conn->connect_error);
 }
 
-$query = "select Nombre, Precio, Categoria, Imagen, idProductos from Productos"; 
-$result = $conn->query($query); //ejecutar y gurdar resultado
+$query = "SELECT idProductos, Nombre, Precio, descripcion, Categoria, Imagen FROM Productos";
+$result = $conn->query($query);
 
 $Productos = [];
-while ($row = $result->fetch_assoc()) { //recorrer el resultado
-    $Productos[] = $row; //guardar
+while ($row = $result->fetch_assoc()) {
+    $Productos[] = $row;
 }
 
 header('Content-Type: application/json');
 echo json_encode($Productos);
-$conn->close(); //
+
+$conn->close();
 ?>

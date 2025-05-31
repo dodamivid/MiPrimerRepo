@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recuperar Contraseña</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fff8f0;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    header {
+      background-color: #7ECECA;
+      color: white;
+      padding: 15px 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .header-container {
+      display: flex;
+      flex-direction: column;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      padding-bottom: 15px;
+    }
+
+    .header-logo {
+      height: 150px;
+      width: auto;
+    }
+
+    .header-logo1 {
+      height: 100px;
+      width: auto;
+    }
+
+    h2 {
+      text-align: center;
+      color: #ff850c;
+      margin-top: 40px;
+    }
+
+    main {
+      padding: 40px 20px;
+    }
+
+    form {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 25px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      background-color: #f9f9f9;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #ff850c;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #e36f00;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-container">
+      <div class="header-brand">
+        <img src="/MiPrimerRe_backup/Proyectof/inicio/Recursos/Logo1.png" alt="Logo Tienda Mascotas" class="header-logo">
+        <img src="/MiPrimerRe_backup/Proyectof/inicio/Recursos/Logo.png" alt="Nombre Tienda" class="header-logo1">
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <h2>Recuperar Contraseña</h2>
+    <form onsubmit="recuperarContrasena(event)">
+      <label for="correo">Correo electrónico:</label>
+      <input type="email" id="correo" required>
+
+      <label for="nueva">Nueva contraseña:</label>
+      <input type="password" id="nueva" required>
+
+      <button type="submit">Actualizar contraseña</button>
+    </form>
+  </main>
+
+  <script>
+    function recuperarContrasena(e) {
+      e.preventDefault();
+      const correo = document.getElementById("correo").value.trim();
+      const nueva = document.getElementById("nueva").value.trim();
+
+   fetch("api_recuperar.php", {
+  method: "PUT",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ correo, nueva })
+})
+
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert("✅ " + data.success);
+          window.location.href = "Inicios.html";
+        } else {
+          alert("❌ " + data.error);
+        }
+      })
+      .catch(err => {
+        alert("❌ Error al conectar con el servidor");
+        console.error(err);
+      });
+    }
+  </script>
+
+</body>
+</html>

@@ -1,24 +1,17 @@
-<?php 
-$host = "mydb";
-$user = "root";
-$pass = "12345";
-$db = "tienda";
+<?php
+require_once(__DIR__ . '/../../conexion.php');
 
 
-$conn = new mysqli($host, $user, $pass, $db);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error); 
-}
+$sql = "SELECT * FROM categorias";
+$resultado = $conn->query($sql);
 
-$query = "select idCategorias, name, Imagen from Categorias"; 
-$result = $conn->query($query); 
+$categorias = [];
 
-$Categorias = [];
-while ($row = $result->fetch_assoc()) { 
-    $Categorias[] = $row; 
+while ($row = $resultado->fetch_assoc()) {
+    $categorias[] = $row;
 }
 
 header('Content-Type: application/json');
-echo json_encode($Categorias);
-$conn->close();
+echo json_encode($categorias, JSON_UNESCAPED_SLASHES);
+
 ?>

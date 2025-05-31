@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de Usuario</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { 
+      font-family: Arial, sans-serif;
+      background-color: #fff8f0;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    header {
+      background-color: #7ECECA;
+      color: white;
+      padding: 15px 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .header-container {
+      display: flex;
+      flex-direction: column;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      padding-bottom: 15px;
+    }
+
+    .header-logo {
+      height: 150px;
+      width: auto;
+    }
+
+    .header-logo1 {
+      height: 100px;
+      width: auto;
+    }
+
+    h2 {
+      text-align: center;
+      color: #ff850c;
+      margin-top: 40px;
+    }
+
+    main {
+      padding: 40px 20px;
+    }
+
+    form {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      background-color: #f9f9f9;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="email"] {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    button,
+    .login-link {
+      background-color: #ff850c;
+      color: white;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .login-link {
+      background-color: #7ECECA;
+    }
+
+    button:hover,
+    .login-link:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-container">
+      <div class="header-brand">
+        <img src="/MiPrimerRe_backup/Proyectof/inicio/Recursos/Logo1.png" alt="Logo Tienda Mascotas" class="header-logo">
+        <img src="/MiPrimerRe_backup/Proyectof/inicio/Recursos/Logo.png" alt="Nombre Tienda" class="header-logo1">
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <h2>Registro de Usuario</h2>
+ <form name="Registro" action="procesar_registro.php" method="POST">
+
+      <div class="form-group">
+        <label for="nombre">Nombre completo:</label>
+        <input type="text" id="nombre" name="nombre" required>
+      </div>
+
+      <div class="form-group">
+        <label for="correo">Correo electrónico:</label>
+        <input type="email" id="correo" name="correo" required>
+      </div>
+
+      <div class="form-group">
+        <label for="usuario">Nombre de usuario:</label>
+        <input type="text" id="usuario" name="usuario" required>
+      </div>
+
+      <div class="form-group">
+        <label for="contrasena">Contraseña:</label>
+        <input type="password" id="contrasena" name="contrasena" required>
+      </div>
+
+      <div class="button-group">
+        <button type="submit">Registrarse</button>
+        <a href="Inicios.html" class="login-link">Volver al Inicio de Sesión</a>
+      </div>
+    </form>
+  </main>
+
+</body>
+</html>

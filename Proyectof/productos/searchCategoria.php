@@ -1,28 +1,27 @@
 <?php
-$host = "mydb";
-$user = "root";
-$pass = "12345";
-$db = "tienda";
+require_once(realpath(__DIR__ . '/../../conexion.php'));
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $categoria = $_POST['categoria'];
 
-    $conn = new mysqli($host, $user, $pass, $db);
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error); //excepcion al fallar la conexion 
-    }
+    $query = "SELECT Nombre, Precio, Categoria, Imagen FROM Productos WHERE Categoria = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("s", $categoria);
+    $stmt->execute();
 
-    $query = "select Nombre, Precio, Categoria, Imagen from Productos where Categoria = '$categoria'";
-    $result = $conn->query($query); //ejecutar y gurdar resultado
-
+    $result = $stmt->get_result();
     $Productos = [];
-    while ($row = $result->fetch_assoc()) { //recorrer el resultado
-        $Productos[] = $row; //guardar
+
+    while ($row = $result->fetch_assoc()) {
+        $Productos[] = $row;
     }
 
     header('Content-Type: application/json');
     echo json_encode($Productos);
-    $conn->close(); //
+
+    $stmt->close();
+    $conn->close();
 } else {
     die("Invalid request method");
 }

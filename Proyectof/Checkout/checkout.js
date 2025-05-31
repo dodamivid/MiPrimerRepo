@@ -104,7 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(data => {
       alert(data.message);
       localStorage.removeItem("carrito");
-      window.location.href = "../inicio/index.html";
+      window.location.href = "../inicio/index.php";
     })
     .catch(err => {
       console.error(err);

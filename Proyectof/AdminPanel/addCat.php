@@ -1,37 +1,29 @@
 <?php
-$host = "mydb";
-$user = "root";
-$pass = "12345";
-$db = "tienda";
-
+require_once(realpath(__DIR__ . '/../../conexion.php'));
 header('Content-Type: application/json');
 
-$conn = new mysqli($host, $user, $pass, $db);
-if ($conn->connect_error) {
-    http_response_code(500);
-    echo json_encode(['success' => false, 'error' => 'DB connection failed']);
+// Leer datos JSON enviados por JavaScript
+$datos = json_decode(file_get_contents("php://input"), true);
+
+if (!$datos || !isset($datos['name']) || !isset($datos['Imagen'])) {
+    echo json_encode(["success" => false, "error" => "Datos incompletos"]);
     exit;
 }
 
-// Leer datos JSON
-$data = json_decode(file_get_contents('php://input'), true);
+$nombre = $datos['name'];
+$imagenNombre = basename($datos['Imagen']); // <- solo extrae el nombre de la imagen
 
-if (!$data) {
-    http_response_code(400);
-    echo json_encode(['success' => false, 'error' => 'No data received']);
-    exit;
-}
+// Ruta que se guardará en la base de datos (relativa al proyecto)
+$rutaGuardada = "Proyectof/AdminPanel/Uploads/" . $imagenNombre;
 
-$Name = $conn->real_escape_string($data['name']);
-$Imagen = $conn->real_escape_string($data['Imagen']);
+// Insertar en base de datos
+$sql = "INSERT INTO categorias (name, imagen) VALUES (?, ?)";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("ss", $nombre, $rutaGuardada);
 
-$query = "INSERT INTO Categorias (name, imagen) VALUES ('$Name', '$Imagen')";
-
-if ($conn->query($query)) {
-    echo json_encode(['success' => true]);
+if ($stmt->execute()) {
+    echo json_encode(["success" => true]);
 } else {
-    http_response_code(500);
-    echo json_encode(['success' => false, 'error' => $conn->error]);
+    echo json_encode(["success" => false, "error" => $stmt->error]);
 }
-$conn->close();
 ?>

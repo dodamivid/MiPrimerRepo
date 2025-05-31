@@ -1,17 +1,8 @@
 <?php
-$host = "mydb";
-$user = "root";
-$pass = "12345";
-$db = "tienda";
+require_once(realpath(__DIR__ . '/../../conexion.php'));
+
 
 header('Content-Type: application/json');
-
-$conn = new mysqli($host, $user, $pass, $db);
-if ($conn->connect_error) {
-    http_response_code(500);
-    echo json_encode(['success' => false, 'error' => 'DB connection failed']);
-    exit;
-}
 
 // Leer datos JSON
 $data = json_decode(file_get_contents('php://input'), true);
@@ -22,19 +13,20 @@ if (!$data) {
     exit;
 }
 
-$nombre = $conn->real_escape_string($data['Nombre']);
-$precio = floatval($data['Precio']);
+$nombre = htmlspecialchars(trim($_POST['nombre']));
+$precio = floatval($_POST['precio']);
+
 $categoria = $conn->real_escape_string($data['Categoria']);
 $descripcion = $conn->real_escape_string($data['descripcion']);
 $ruta = $conn->real_escape_string($data['Imagen']);
 
-$query = "INSERT INTO Productos (Nombre, Precio, Categoria, Descripcion, Imagen) VALUES ('$nombre', $precio, '$categoria', '$descripcion', '$ruta')";
+$query = "INSERT INTO Productos (Nombre, Precio, Categoria, Descripcion, Imagen) 
+          VALUES ('$nombre', $precio, '$categoria', '$descripcion', '$ruta')";
 
 if ($conn->query($query)) {
     echo json_encode(['success' => true]);
 } else {
-    http_response_code(500);
     echo json_encode(['success' => false, 'error' => $conn->error]);
 }
-$conn->close();
 ?>
+
