@@ -1,5 +1,4 @@
-<!-- index.html -->
- <?php
+<?php
 session_start();
 
 if (!isset($_SESSION['usuario'])) {
@@ -26,7 +25,7 @@ if (!isset($_SESSION['usuario'])) {
       echo "¡Hola, " . $_SESSION['nombre'] . "! ";
   }
   ?>
-<a href="/MiPrimerRe_backup/logout.php"
+<a href="../../logout.php"
    style="margin-left: 15px; padding: 5px 10px; background-color: red; color: white; border-radius: 5px; text-decoration: none;">
    Cerrar sesión
 </a>
