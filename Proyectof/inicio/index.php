@@ -121,7 +121,7 @@ if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin') {
 
         <!-- CTA -->
         <section class="cta">
-          <a href="../productos/productos.html" class="btn-cta">¡Explora productos ahora!</a>
+          <a href="../productos/productos.php" class="btn-cta">¡Explora productos ahora!</a>
         </section>
 
         <!-- Opiniones -->

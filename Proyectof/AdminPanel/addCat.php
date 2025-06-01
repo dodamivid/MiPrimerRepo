@@ -17,7 +17,7 @@ $imagenNombre = basename($datos['Imagen']); // <- solo extrae el nombre de la im
 $rutaGuardada = "Proyectof/AdminPanel/Uploads/" . $imagenNombre;
 
 // Insertar en base de datos
-$sql = "INSERT INTO categorias (name, imagen) VALUES (?, ?)";
+$sql = "INSERT INTO Categorias (name, imagen) VALUES (?, ?)";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("ss", $nombre, $rutaGuardada);
 

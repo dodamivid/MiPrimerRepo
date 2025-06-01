@@ -27,7 +27,7 @@ session_start();
     <li><a href="../Checkout/checkout.php">Checkout</a></li>
 
     <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin'): ?>
-      <li><a href="/MiPrimerRe_backup/Proyectof/AdminPanel/admin.php">Admin</a></li>
+      <li><a href="/MiPrimerRepo/Proyectof/AdminPanel/admin.php">Admin</a></li>
     <?php endif; ?>
   </ul>
 </nav>

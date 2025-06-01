@@ -26,7 +26,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
         let imagenInput = document.getElementById("imagen");
         let fileName = imagenInput.files[0] ? imagenInput.files[0].name : "";
-        let Imagen = "Uploads/" + fileName;
+        let Imagen = "Proyectof/AdminPanel/Uploads/" + fileName;
 
         fetch('UploadFile.php', {
             method: 'POST',
@@ -153,11 +153,10 @@ function renderCat() {
 
       listaCategorias.innerHTML = '';
       data.forEach(categoria => {
-        const imagenPath = categoria.imagen ? categoria.imagen.replace(/\\/g, '/') : '';
 
         listaCategorias.innerHTML += `
           <li>
-            <img src="${imagenPath}" width="30" height="30" style="object-fit:cover; border-radius:4px; margin-bottom:8px;">
+            <img src="../../${categoria.imagen}" width="30" height="30" style="object-fit:cover; border-radius:4px; margin-bottom:8px;">
             ${categoria.name}
             <button type="button" class="btn-eliminar-cat" data-id="${categoria.idCategorias}">Eliminar</button>
           </li>
@@ -180,7 +179,7 @@ function renderCat() {
                 data.forEach(producto => {
                     ulProd.innerHTML += `
                         <li>
-                            <img src="${producto.Imagen}" width="80" height="80" style="object-fit:cover; border-radius:6px;">
+                            <img src="../../${producto.Imagen}" width="80" height="80" style="object-fit:cover; border-radius:6px;">
                             <strong>${producto.Nombre}</strong><br>
                             Precio: $${producto.Precio}<br>
                             Categoría: ${producto.Categoria}<br>

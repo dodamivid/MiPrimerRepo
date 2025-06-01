@@ -13,8 +13,8 @@ if (!$data) {
     exit;
 }
 
-$nombre = htmlspecialchars(trim($_POST['nombre']));
-$precio = floatval($_POST['precio']);
+$nombre = htmlspecialchars(trim($data['Nombre']));
+$precio = floatval($data['Precio']);
 
 $categoria = $conn->real_escape_string($data['Categoria']);
 $descripcion = $conn->real_escape_string($data['descripcion']);
