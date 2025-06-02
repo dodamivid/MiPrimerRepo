@@ -142,7 +142,6 @@ window.addEventListener('DOMContentLoaded', function () {
     });
 
 function renderCat() {
-  console.log("Ejecutando renderCat...");
   fetch('../productos/getCat.php')
     .then(response => response.json())
     .then(data => {

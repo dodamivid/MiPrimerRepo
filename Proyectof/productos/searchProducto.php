@@ -5,7 +5,7 @@ require_once(realpath(__DIR__ . '/../../conexion.php'));
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre = $_POST['Nombre'];
 
-    $query = "SELECT Nombre, Precio, Categoria, Imagen FROM Productos WHERE Nombre LIKE ?";
+    $query = "SELECT idProductos, Nombre, Precio, Categoria, Imagen FROM Productos WHERE Nombre LIKE ?";
     $stmt = $conn->prepare($query);
     $likeNombre = $nombre . "%";
     $stmt->bind_param("s", $likeNombre);

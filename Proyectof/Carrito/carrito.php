@@ -44,8 +44,8 @@ session_start();
   <div id="carrito-lista"></div>
   <div id="total" class="total-carrito"></div>
   <button onclick="vaciarCarrito()" class="btn-vaciar">Vaciar Carrito</button>
-  <a href="../productos/productos.html" class="btn-seguir">← Seguir comprando</a>
-  <a href="../Checkout/checkout.html" class="btn-checkout">Finalizar compra →</a>
+  <a href="../productos/productos.php" class="btn-seguir">← Seguir comprando</a>
+  <a href="../Checkout/checkout.php" class="btn-checkout">Finalizar compra →</a>
 </main>
 
   <script src="carrito.js"></script>

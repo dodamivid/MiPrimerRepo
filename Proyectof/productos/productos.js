@@ -26,14 +26,14 @@ window.addEventListener('DOMContentLoaded', () => {
                 Contenedor.innerHTML = '';
                 for (let i = 0; i < data.length; i++) {
                     Contenedor.innerHTML += `
-                <div class="producto">
-                    <img id="prodImg" src=../../"${Productos[i].Imagen}">
-                    <h3>${data[i].Nombre}</h3>
-                    <p>Precio: $${data[i].Precio}</p>
-                    <button id="agregarBTN">Agregar al carrito</button>
-                    <a>Ver mas</a>
-                </div>
-                `;
+            <div class="producto">
+                <img id="prodImg" src="../../${data[i].Imagen}">
+                <h3>${data[i].Nombre}</h3>
+                <p>Precio: $${data[i].Precio}</p>
+                <button id="agregarBTN" class="btn-agregar" data-id="${data[i].idProductos}">Agregar al carrito</button>
+                <a href="../DetalledeProducto/detalle.php?id=${data[i].idProductos}">Ver más</a>
+            </div>
+            `;
                 };
             });
         }
@@ -52,14 +52,14 @@ window.addEventListener('DOMContentLoaded', () => {
         const data = await response.json();
         for (let i = 0; i < data.length; i++) {
             Contenedor.innerHTML += `
-                <div class="producto">
-                    <img id="prodImg" src=../../"${Productos[i].Imagen}">
-                    <h3>${data[i].Nombre}</h3>
-                    <p>Precio: $${data[i].Precio}</p>
-                    <button id="agregarBTN">Agregar al carrito</button>
-                    <a>Ver mas</a>
-                </div>
-                `;
+            <div class="producto">
+                <img id="prodImg" src="../../${data[i].Imagen}">
+                <h3>${data[i].Nombre}</h3>
+                <p>Precio: $${data[i].Precio}</p>
+                <button id="agregarBTN" class="btn-agregar" data-id="${data[i].idProductos}">Agregar al carrito</button>
+                <a href="../DetalledeProducto/detalle.php?id=${data[i].idProductos}">Ver más</a>
+            </div>
+            `;
         }
     });
 
@@ -68,17 +68,17 @@ window.addEventListener('DOMContentLoaded', () => {
             .then(response => response.json())
             .then(data => {
                 Productos = data;
-
+                Contenedor.innerHTML = '';
                 for (let i = 0; i < Productos.length; i++) {
                     Contenedor.innerHTML += `
-                <div class="producto">
-                    <img id="prodImg" src="../../${Productos[i].Imagen}">
-                    <h3>${Productos[i].Nombre}</h3>
-                    <p>Precio: $${Productos[i].Precio}</p>
-                    <button id="agregarBTN">Agregar al carrito</button>
-                    <a>Ver mas</a>
-                </div>
-                `;
+            <div class="producto">
+                <img id="prodImg" src="../../${Productos[i].Imagen}">
+                <h3>${Productos[i].Nombre}</h3>
+                <p>Precio: $${Productos[i].Precio}</p>
+                <button id="agregarBTN" class="btn-agregar" data-id="${Productos[i].idProductos}">Agregar al carrito</button>
+                <a href="../DetalledeProducto/detalle.php?id=${Productos[i].idProductos}">Ver más</a>
+            </div>
+            `;
                 };
             });
     }
@@ -97,15 +97,20 @@ window.addEventListener('DOMContentLoaded', () => {
 
     Contenedor.addEventListener('click', function (e) {
         if (e.target.classList.contains('btn-agregar')) {
-            const card = e.target.closest('.producto');
-            const nombre = card.querySelector('h3').textContent;
-            const precio = parseFloat(card.querySelector('p').textContent.replace('Precio: $', ''));
-            const imagen = card.querySelector('img').src;
-            const producto = { nombre, precio, imagen };
-            const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-            carrito.push(producto);
-            localStorage.setItem('carrito', JSON.stringify(carrito));
-            alert('Producto agregado al carrito: ' + nombre);
+            const id = e.target.getAttribute('data-id');
+            fetch('../Carrito/AgregarCarrito.php?id=' + encodeURIComponent(id), {
+                method: 'POST'
+            })
+            .then(res => res.json())
+            .then(result => {
+                if (result.success) {
+                    console.log('Producto añadido al carrito');
+                    alert('Producto añadido al carrito');
+                } else {
+                    console.error('Error al añadir producto al carrito:', result.error);
+                }
+            })
         }
     });
+
 });
