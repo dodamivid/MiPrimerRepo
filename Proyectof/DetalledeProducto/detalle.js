@@ -22,27 +22,34 @@ document.addEventListener("DOMContentLoaded", () => {
       const descripcion = document.getElementById("descripcion");
       const categoria = document.getElementById("categoria");
 
-   imagen.src = "../../AdminPanel/" + data.Imagen.replace(/\\/g, "/");
+      imagen.src = "../../" + data.Imagen;
 
 
 
       imagen.alt = data.Nombre;
       nombre.textContent = data.Nombre;
       precio.textContent = `$${data.Precio}`;
-      descripcion.textContent = data.descripcion || "Sin descripción";
+      descripcion.textContent = data.Descripcion || "Sin descripción";
       categoria.textContent = data.Categoria || "Sin categoría";
 
       // Agregar al carrito
       const btnAgregar = document.querySelector(".btn-agregar");
-      btnAgregar.addEventListener("click", () => {
-        const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-        carrito.push({
-          nombre: data.Nombre,
-          precio: data.Precio,
-          imagen: "../AdminPanel/" + data.Imagen
-        });
-        localStorage.setItem("carrito", JSON.stringify(carrito));
-        alert(`${data.Nombre} agregado al carrito`);
+      btnAgregar.addEventListener("click", (e) => {
+        if (e.target.classList.contains('btn-agregar')) {
+          const id = e.target.getAttribute('data-id');
+          fetch('../Carrito/AgregarCarrito.php?id=' + encodeURIComponent(id), {
+            method: 'POST'
+          })
+            .then(res => res.json())
+            .then(result => {
+              if (result.success) {
+                console.log('Producto añadido al carrito');
+                alert('Producto añadido al carrito');
+              } else {
+                console.error('Error al añadir producto al carrito:', result.error);
+              }
+            })
+        }
       });
     })
     .catch(err => {
@@ -50,4 +57,3 @@ document.addEventListener("DOMContentLoaded", () => {
       document.body.innerHTML = "<h2>Error al cargar el producto</h2>";
     });
 });
-  
