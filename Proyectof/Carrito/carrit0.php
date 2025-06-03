@@ -1,5 +1,5 @@
 <?php
-include("conexion.php");
+require_once(realpath(__DIR__ . '/../../conexion.php'));
 
 header('Content-Type: application/json');
 

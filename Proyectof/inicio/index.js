@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
         for (let i = 0; i < data.length; i++) {
           categoriesContainer.innerHTML += `
             <div class="card">
-              <img src='../${data[i].Imagen ? data[i].Imagen.replace("Proyectof/", "") : ""}'>
+              <img src='../../${data[i].imagen}'>
               <span class="categoria-titulo">${data[i].name}</span>
             </div>
           `;

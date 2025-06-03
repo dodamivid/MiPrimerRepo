@@ -2,7 +2,7 @@
 require_once(__DIR__ . '/../../conexion.php');
 
 
-$sql = "SELECT * FROM categorias";
+$sql = "SELECT * FROM Categorias";
 $resultado = $conn->query($sql);
 
 $categorias = [];
