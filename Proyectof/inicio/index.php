@@ -36,7 +36,7 @@ if (!isset($_SESSION['usuario'])) {
 
     <div class="top-bar">
       <div class="header-brand">
-        <img src="./Recursos/logo1.png" alt="Logo Tienda Mascotas" class="header-logo">
+        <img src="./Recursos/Logo1.png" alt="Logo Tienda Mascotas" class="header-logo">
         <img src="./Recursos/logo.png" alt="Nombre Tienda" class="header-logo1">
       </div>
 

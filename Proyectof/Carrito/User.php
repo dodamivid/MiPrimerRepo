@@ -4,7 +4,7 @@ require_once(realpath(__DIR__ . '/../../conexion.php'));
 // Verifica si la sesión tiene el usuario
 if (!isset($_SESSION['usuario'])) {
     http_response_code(401);
-    echo json_encode(['error' => 'Usuario no autenticado']);
+    //echo json_encode(['error' => 'Usuario no autenticado']);
     exit;
 }
 
@@ -21,14 +21,14 @@ try {
 
     if ($result) {
         // Devuelve el id en formato JSON
-        echo json_encode(['id' => $id]);
+        //echo json_encode(['id' => $id]);
         $_SESSION['id'] = $id; // Guarda el id en la sesión
     } else {
         http_response_code(404);
-        echo json_encode(['error' => 'Usuario no encontrado']);
+        //echo json_encode(['error' => 'Usuario no encontrado']);
     }
 } catch (PDOException $e) {
     http_response_code(500);
-    echo json_encode(['error' => 'Error en la base de datos']);
+    //echo json_encode(['error' => 'Error en la base de datos']);
 }
 ?>

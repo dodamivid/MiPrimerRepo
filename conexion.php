@@ -1,5 +1,5 @@
 <?php
-$host = "mysql";
+$host = "mydb";
 $port = 3306;
 $usuario = "root";
 $clave = "12345";

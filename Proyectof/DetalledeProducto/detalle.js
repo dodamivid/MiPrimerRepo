@@ -34,22 +34,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Agregar al carrito
       const btnAgregar = document.querySelector(".btn-agregar");
-      btnAgregar.addEventListener("click", (e) => {
-        if (e.target.classList.contains('btn-agregar')) {
-          const id = e.target.getAttribute('data-id');
-          fetch('../Carrito/AgregarCarrito.php?id=' + encodeURIComponent(id), {
-            method: 'POST'
+      btnAgregar.setAttribute("data-id", data.idProductos);
+      btnAgregar.addEventListener("click", () => {
+        const id = btnAgregar.getAttribute("data-id");
+        fetch('../Carrito/AgregarCarrito.php?id=' + encodeURIComponent(id), {
+          method: 'POST'
+        })
+          .then(res => res.json())
+          .then(result => {
+            if (result.success) {
+              alert('Producto añadido al carrito');
+              console.log('Producto añadido al carrito');
+            } else {
+              console.error('Error al añadir producto al carrito:', result.error);
+            }
           })
-            .then(res => res.json())
-            .then(result => {
-              if (result.success) {
-                console.log('Producto añadido al carrito');
-                alert('Producto añadido al carrito');
-              } else {
-                console.error('Error al añadir producto al carrito:', result.error);
-              }
-            })
-        }
       });
     })
     .catch(err => {

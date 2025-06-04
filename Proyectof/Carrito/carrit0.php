@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once(realpath(__DIR__ . '/../../conexion.php'));
 
 header('Content-Type: application/json');
@@ -9,7 +10,7 @@ switch ($accion) {
   case 'listar':
     $result = $conn->query("SELECT carrito.id, idCliente, idprod, Cantidad, 
     Productos.Nombre, Productos.Precio, Productos.Imagen FROM carrito LEFT JOIN 
-    Productos ON carrito.idprod = Productos.idProductos");
+    Productos ON carrito.idprod = Productos.idProductos WHERE idCliente = {$_SESSION['id']}");
     $data = [];
     while ($row = $result->fetch_assoc()) {
       $data[] = $row;
