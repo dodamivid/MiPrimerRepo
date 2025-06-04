@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($stmt->affected_rows > 0) {
             echo json_encode(['success' => true]);
-            echo('Producto agregado al carrito');
+            //echo('Producto agregado al carrito');
         } else {
             http_response_code(500);
             echo json_encode(['success' => false, 'error' => 'Error al agregar el producto al carrito']);

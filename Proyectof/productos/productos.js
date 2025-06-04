@@ -104,8 +104,8 @@ window.addEventListener('DOMContentLoaded', () => {
             .then(res => res.json())
             .then(result => {
                 if (result.success) {
-                    console.log('Producto añadido al carrito');
                     alert('Producto añadido al carrito');
+                    console.log('Producto añadido al carrito');
                 } else {
                     console.error('Error al añadir producto al carrito:', result.error);
                 }

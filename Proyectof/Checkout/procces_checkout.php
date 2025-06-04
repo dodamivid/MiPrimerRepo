@@ -1,6 +1,5 @@
 <?php
-include("../Carrito/conexion.php"); // Usa la conexión correcta con puerto 3307
-header("Access-Control-Allow-Origin: *");
+require_once(realpath(__DIR__ . '/../../conexion.php'));header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json");
 

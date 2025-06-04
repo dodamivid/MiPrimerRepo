@@ -33,7 +33,7 @@ session_start();
         <h3 id="precio">$0</h3>
         <p id="descripcion">Descripción del producto.</p>
         <p><strong>Categoría:</strong> <span id="categoria"></span></p>
-        <button class="btn-agregar"><i class="fas fa-cart-plus"></i> Agregar al carrito</button>
+        <button id = "agregarBTN" class="btn-agregar"><i class="fas fa-cart-plus"></i> Agregar al carrito</button>
     
         <div class="extra-info">
           <p>✅ Disponible para entrega inmediata</p>
