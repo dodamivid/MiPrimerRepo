@@ -1,34 +1,26 @@
 <?php
-require_once(realpath(__DIR__ . '/../../conexion.php'));
+// NO IMPRIME NADA. Solo asegura que $_SESSION['id'] exista.
+// Tu login ya debe poner $_SESSION['usuario'] y/o $_SESSION['id'].
 
-// Verifica si la sesión tiene el usuario
-if (!isset($_SESSION['usuario'])) {
-    http_response_code(401);
-    echo json_encode(['error' => 'Usuario no autenticado']);
-    exit;
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
 }
 
-$usuario = $_SESSION['usuario'];
+if (!isset($_SESSION['id']) && isset($_SESSION['usuario'])) {
+    require_once(realpath(__DIR__ . '/../../conexion.php'));
+    $usuario = $_SESSION['usuario'];
 
-try {
-
-    $stmt = $conn->prepare('SELECT id FROM usuarios WHERE usuario = ? LIMIT 1');
-    $stmt->bind_param('s', $usuario);
-    $stmt->execute();
-    $stmt->bind_result($id);
-    $result = $stmt->fetch();
-    $stmt->close();
-
-    if ($result) {
-        // Devuelve el id en formato JSON
-        echo json_encode(['id' => $id]);
-        $_SESSION['id'] = $id; // Guarda el id en la sesión
-    } else {
-        http_response_code(404);
-        echo json_encode(['error' => 'Usuario no encontrado']);
+    if ($conn && !$conn->connect_error) {
+        if ($stmt = $conn->prepare('SELECT id FROM usuarios WHERE usuario = ? LIMIT 1')) {
+            $stmt->bind_param('s', $usuario);
+            if ($stmt->execute()) {
+                $res = $stmt->get_result();
+                if ($row = $res->fetch_assoc()) {
+                    $_SESSION['id'] = (int)$row['id'];
+                }
+            }
+            $stmt->close();
+        }
     }
-} catch (PDOException $e) {
-    http_response_code(500);
-    echo json_encode(['error' => 'Error en la base de datos']);
 }
-?>
+// No echo, no json_encode aquí.

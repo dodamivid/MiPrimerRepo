@@ -1,11 +1,10 @@
 <?php
 require_once(realpath(__DIR__ . '/../../conexion.php'));
 
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $categoria = $_POST['categoria'];
+    $categoria = $_POST['categoria'] ?? '';
 
-    $query = "SELECT Nombre, Precio, Categoria, Imagen FROM Productos WHERE Categoria = ?";
+    $query = "SELECT idProductos, Nombre, Precio, Categoria, Imagen FROM Productos WHERE Categoria = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("s", $categoria);
     $stmt->execute();
@@ -23,6 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->close();
     $conn->close();
 } else {
-    die("Invalid request method");
+    http_response_code(405);
+    echo json_encode(['error' => 'Invalid request method']);
 }
 ?>

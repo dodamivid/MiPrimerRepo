@@ -1,20 +1,21 @@
-<?php 
+<?php
+header('Content-Type: application/json; charset=utf-8');
 require_once(realpath(__DIR__ . '/../../conexion.php'));
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+$categoria = isset($_GET['categoria']) ? trim($_GET['categoria']) : '';
+
+if ($categoria !== '') {
+  $stmt = $conn->prepare("SELECT idProductos, Nombre, Descripcion, Precio, Imagen, Categoria 
+                          FROM productos WHERE Categoria = ? ORDER BY idProductos DESC");
+  $stmt->bind_param("s", $categoria);
+  $stmt->execute();
+  $res = $stmt->get_result();
+  $data = $res->fetch_all(MYSQLI_ASSOC);
+  $stmt->close();
+} else {
+  $res = $conn->query("SELECT idProductos, Nombre, Descripcion, Precio, Imagen, Categoria 
+                       FROM productos ORDER BY idProductos DESC");
+  $data = $res->fetch_all(MYSQLI_ASSOC);
 }
-
-$query = "SELECT idProductos, Nombre, Precio, descripcion, Categoria, Imagen FROM Productos";
-$result = $conn->query($query);
-
-$Productos = [];
-while ($row = $result->fetch_assoc()) {
-    $Productos[] = $row;
-}
-
-header('Content-Type: application/json');
-echo json_encode($Productos);
-
+echo json_encode($data);
 $conn->close();
-?>

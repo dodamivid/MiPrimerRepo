@@ -13,8 +13,21 @@ if (!isset($_SESSION['usuario'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tienda de Mascotas</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles1.css">
 </head>
+<script>
+async function updateCartCount() {
+  try {
+    const res = await fetch('/MiPrimerRe_backup/Proyectof/api/cart_count.php', { cache: 'no-store' });
+    const data = await res.json();
+    document.getElementById('cart-count').textContent = data.count || 0;
+  } catch (e) {
+    console.error('Contador carrito:', e);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', updateCartCount);
+</script>
 
 <body>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -40,20 +53,15 @@ if (!isset($_SESSION['usuario'])) {
         <img src="./Recursos/logo.png" alt="Nombre Tienda" class="header-logo1">
       </div>
 
-      <div class="search-container">
-        <form id="search-form" style="display: flex; align-items: center;">
-          <input type="text" id="search-input" placeholder="Buscar...">
-          <button type="submit"><i class="fas fa-search"></i></button>
-        </form>
-      </div>
 
 
-      <div class="quick-links">
+
+      <div class="quick-links2">
         <a href="#"><i class="fas fa-question-circle"></i> Ayuda</a>
         <a href="#"><i class="fas fa-map-marker-alt"></i> Ubicación</a>
-        <a href="../Carrito/carrito.html" class="cart-icon">
+        <a href="../Carrito/carrito.php" class="cart-icon">
           <i class="fas fa-shopping-cart"></i>
-          <span class="cart-count">0</span>
+          <span id="cart-count">0</span>
         </a>
       </div>
     </div>
@@ -73,36 +81,36 @@ if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin') {
       </ul>
     </nav>
   </header>
-  <section class="hero-slider">
-    <div class="slide active" style="background-image: url('./Recursos/publicidad2.jpg');">
+<section class="hero-slider">
+    <div class="slide active" style="background-image:url('./Recursos/publicidad2.jpg');">
       <div class="slide-content">
         <h2>Los mejores productos para tu mascota</h2>
         <p>Lo encuentras en <strong>PetRunners</strong></p>
-        <a href="#" class="btn-slide">Desde $250 🌙</a>
+        <a href="../productos/productos.php" class="btn-slide">Desde $250 🌙</a>
       </div>
     </div>
 
-    <div class="slide" style="background-image: url('./Recursos/p3.jpg');">
+    <div class="slide" style="background-image:url('./Recursos/p3.jpg');">
       <div class="slide-content">
         <h2>Alimentos Premium para Mascotas</h2>
         <p>Solo en PetRunners</p>
-        <a href="#" class="btn-slide">Ver productos</a>
+        <a href="../productos/productos.php" class="btn-slide">Ver productos</a>
       </div>
     </div>
 
-    <div class="slide" style="background-image: url('./Recursos/publicidad5.png');">\
-      <div class="slide-content">\
-        <h2>Lo mejor</h2>\
-        <p>Solo en PetRunners</p>\
-        <a href="#" class="btn-slide">Ver productos</a>\
-      </div>\
-
-
+    <div class="slide" style="background-image:url('./Recursos/publicidad5.png');">
+      <div class="slide-content">
+        <h2>Lo mejor</h2>
+        <p>Solo en PetRunners</p>
+        <a href="../productos/productos.php" class="btn-slide">Ver productos</a>
+      </div>
     </div>
+
     <!-- Flechas -->
-    <div class="arrow left" onclick="changeSlide(-1)">&#10094;</div>
+    <div class="arrow left"  onclick="changeSlide(-1)">&#10094;</div>
     <div class="arrow right" onclick="changeSlide(1)">&#10095;</div>
   </section>
+
 
 
   <main>
@@ -142,6 +150,7 @@ if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin') {
         </section>
       </main>
     <script src="index.js"></script>
+    <script src="cart.js"></script>
 </body>
 <footer class="site-footer">
   <div class="footer-container">
@@ -157,15 +166,15 @@ if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin') {
     </div>
 
     <!-- Columna 2: Enlaces rápidos -->
-    <div class="footer-column">
-      <h3>Enlaces rápidos</h3>
-      <ul class="quick-links">
-        <li><a href="../inicio/index.php"><i class="fas fa-paw"></i> Inicio</a></li>
-        <li><a href="../productos/productos.html"><i class="fas fa-shopping-bag"></i> Productos</a></li>
-        <li><a href="../Carrito/carrito.html"><i class="fas fa-shopping-cart"></i> Carrito</a></li>
+<div class="footer-column">
+  <h3>Enlaces rápidos</h3>
+  <ul class="quick-links">
+    <li><a href="../inicio/index.php"><i class="fas fa-paw"></i> Inicio</a></li>
+    <li><a href="../productos/productos.php"><i class="fas fa-shopping-bag"></i> Productos</a></li>
+    <li><a href="../Carrito/carrito.php"><i class="fas fa-shopping-cart"></i> Carrito</a></li>
+  </ul>
+</div>
 
-      </ul>
-    </div>
 
     <!-- Columna 3: Redes sociales -->
     <div class="footer-column">

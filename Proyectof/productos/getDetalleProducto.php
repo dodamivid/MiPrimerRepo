@@ -1,5 +1,5 @@
 <?php
-require_once(realpath(__DIR__ . '/../conexion.php'));
+require_once(realpath(__DIR__ . '/../../conexion.php'));
 
 if (!isset($_GET['nombre'])) {
     echo json_encode(['error' => 'Nombre de producto no proporcionado']);
@@ -21,4 +21,3 @@ if ($row = $result->fetch_assoc()) {
 
 $stmt->close();
 $conn->close();
-?>

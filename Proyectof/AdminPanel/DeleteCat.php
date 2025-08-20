@@ -1,39 +1,45 @@
 <?php
-require_once(realpath(__DIR__ . '/../../conexion.php'));
+header('Content-Type: application/json; charset=utf-8');
+require __DIR__ . '/../conexion.php';
 
-
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error); //excepcion al fallar la conexion 
+$id = $_POST['id'] ?? null;
+if (!$id || !ctype_digit($id)) {
+  echo json_encode(['ok' => false, 'msg' => 'ID inválido']);
+  exit;
 }
 
-header('Content-Type: application/json');
-if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
-    parse_str($_SERVER['QUERY_STRING'], $params);
-    $id = $params['id'] ?? null;
+$stmt = $cn->prepare("SELECT name, imagen FROM Categorias WHERE idCategoria=?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$cat = $stmt->get_result()->fetch_assoc();
 
-    if ($id){
-        $query = 'DELETE FROM Categorias where idCategorias = ?';
-        $stmt = $conn->prepare($query);
+if (!$cat) {
+  echo json_encode(['ok' => false, 'msg' => 'No existe']);
+  exit;
+}
 
-        if ($stmt) {
-            $stmt->bind_param('i', $id);
-            if ($stmt->execute()) {
-                echo json_encode(['success' => true]);
-            } else {
-                http_response_code(500);
-                echo json_encode(['success' => false, 'error' => 'Error al eliminar la categoria']);
-            }
-            $stmt->close();
-        } else {
-            http_response_code(500);
-            echo json_encode(['success' => false, 'error' => 'Error en la preparación de la consulta']);
-        }
-    } else {
-        http_response_code(400);
-        echo json_encode(['success' => false, 'error' => 'ID no proporcionado']);
-    }
-    exit;
-    $conn->close();
-    }    
-?>
+// opcional: evitar borrar si productos usan esa categoría
+$stmt = $cn->prepare("SELECT COUNT(*) FROM productos WHERE Categoria=?");
+$stmt->bind_param("s", $cat['name']);
+$stmt->execute();
+$stmt->bind_result($n);
+$stmt->fetch();
+$stmt->close();
+
+if ($n > 0) {
+  echo json_encode(['ok' => false, 'msg' => 'Categoría en uso']);
+  exit;
+}
+
+$stmt = $cn->prepare("DELETE FROM Categorias WHERE idCategoria=?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+
+if (!empty($cat['imagen'])) {
+  $ruta = realpath(__DIR__ . '/' . $cat['imagen']);
+  if ($ruta && file_exists($ruta)) {
+    @unlink($ruta);
+  }
+}
+
+echo json_encode(['ok' => true]);

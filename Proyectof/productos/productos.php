@@ -15,6 +15,19 @@ session_start();
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
   >
 </head>
+<script>
+async function updateCartCount() {
+  try {
+    const res = await fetch('/MiPrimerRe_backup/Proyectof/api/cart_count.php', { cache: 'no-store' });
+    const data = await res.json();
+    document.getElementById('cart-count').textContent = data.count || 0;
+  } catch (e) {
+    console.error('Contador carrito:', e);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', updateCartCount);
+</script>
 
 <body>
   <header>
@@ -33,24 +46,26 @@ session_start();
         <div class="quick-links">
           <a href="#"><i class="fas fa-question-circle"></i> Ayuda</a>
           <a href="#"><i class="fas fa-map-marker-alt"></i> Ubicación</a>
-          <a href="../Carrito/carrito.html" class="cart-icon">
+          <a href="../Carrito/carrito.php" class="cart-icon">
             <i class="fas fa-shopping-cart"></i>
-            <span class="cart-count">0</span>
+            <span id="cart-count">0</span>
           </a>
         </div>
       </div>
-   <nav class="main-nav">
-  <ul>
-    <li><a href="../inicio/index.php">Inicio</a></li>
-    <li><a href="../productos/productos.php">Productos</a></li>
-    <li><a href="../Carrito/carrito.php">Carrito</a></li>
-    <li><a href="../Checkout/checkout.php">Checkout</a></li>
+     <nav class="main-nav">
+      <ul>
+        <li><a href="../inicio/index.php">Inicio</a></li>
+        <li><a href="../productos/productos.php">Productos</a></li>
+        <li><a href="../Carrito/carrito.php">Carrito</a></li>
+        <li><a href="../Checkout/checkout.php">Checkout</a></li>
+        <?php
+if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin') {
+    echo '<li><a href="../AdminPanel/admin.php">Admin</a></li>';
+}
+?>
 
-    <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin'): ?>
-      <li><a href="/MiPrimerRepo/Proyectof/AdminPanel/admin.php">Admin</a></li>
-    <?php endif; ?>
-  </ul>
-</nav>
+      </ul>
+    </nav>
 
     
     </div>
@@ -68,6 +83,7 @@ session_start();
     <div id="productos-lista"></div>
   </main>
     <script src="productos.js"></script>
+<script src="cart.js"></script>
 
 <footer class="site-footer">
   <div class="footer-container">
@@ -87,8 +103,8 @@ session_start();
       <h3>Enlaces rápidos</h3>
       <ul class="quick-links">
         <li><a href="../inicio/index.php"><i class="fas fa-paw"></i> Inicio</a></li>
-        <li><a href="../productos/productos.html"><i class="fas fa-shopping-bag"></i> Productos</a></li>
-        <li><a href="../Carrito/carrito.html"><i class="fas fa-shopping-cart"></i> Carrito</a></li>
+        <li><a href="../productos/productos.php"><i class="fas fa-shopping-bag"></i> Productos</a></li>
+        <li><a href="../Carrito/carrito.php"><i class="fas fa-shopping-cart"></i> Carrito</a></li>
        
       </ul>
     </div>

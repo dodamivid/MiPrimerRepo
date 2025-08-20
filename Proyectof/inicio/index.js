@@ -1,166 +1,71 @@
-document.addEventListener("DOMContentLoaded", function () {
+// === Slider ===
+(function () {
+  const slider = document.querySelector('.hero-slider');
+  if (!slider) return;
 
-  // =====================
-  // SLIDER AUTOMÁTICO
-  // =====================
-  let currentSlide = 0;
-  const slides = document.querySelectorAll(".slide");
-  const leftArrow = document.querySelector(".arrow.left");
-  const rightArrow = document.querySelector(".arrow.right");
+  const slides = slider.querySelectorAll('.slide');
+  const nextBtn = slider.querySelector('.arrow.right');
+  const prevBtn = slider.querySelector('.arrow.left');
 
-  function changeSlide(direction) {
-    slides[currentSlide].classList.remove("active");
-    currentSlide = (currentSlide + direction + slides.length) % slides.length;
-    slides[currentSlide].classList.add("active");
+  let index = [...slides].findIndex(s => s.classList.contains('active'));
+  if (index < 0) { index = 0; slides[0]?.classList.add('active'); }
+
+  const INTERVAL = 3000;
+  let timer = null;
+
+  function show(i) {
+    slides[index].classList.remove('active');
+    index = (i + slides.length) % slides.length;
+    slides[index].classList.add('active');
   }
 
-  if (leftArrow && rightArrow && slides.length > 0) {
-    leftArrow.addEventListener("click", () => changeSlide(-1));
-    rightArrow.addEventListener("click", () => changeSlide(1));
+  // Mantengo tu API para los onclick del HTML
+  window.changeSlide = function (dir) {
+    show(index + (dir || 1));
+    restart();
+  };
 
-    setInterval(() => changeSlide(1), 5000);
+  function start() {
+    clearInterval(timer);
+    timer = setInterval(() => show(index + 1), INTERVAL);
   }
+  function restart() { clearInterval(timer); start(); }
 
-  // =====================
-  // CONTADOR DEL CARRITO
-  // =====================
-  function actualizarContadorCarrito() { //actualizar cuando el cliente inicie sesion y se sepa su id
-    //const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-    //const contador = document.querySelector('.cart-count'); //YA NO SE USA
-    //if (contador) contador.textContent = carrito.length;
-  }
+  nextBtn?.addEventListener('click', () => window.changeSlide(1));
+  prevBtn?.addEventListener('click', () => window.changeSlide(-1));
 
-  actualizarContadorCarrito();
+  // pausa al pasar el mouse (opcional)
+  slider.addEventListener('mouseenter', () => clearInterval(timer));
+  slider.addEventListener('mouseleave', start);
 
-  // =====================
-  // BÚSQUEDA
-  // =====================
-  const searchForm = document.getElementById('search-form');
-  const searchInput = document.getElementById('search-input');
+  start();
+})();
 
-  if (searchForm && searchInput) {
-    searchForm.addEventListener('submit', function (e) {
-      /*e.preventDefault();
-      const query = searchInput.value.trim();
-      if (query) {
-        window.location.href = `../productos/productos.html?search=${encodeURIComponent(query)}`;
-      }
-      */ //Actualizar***
+// === Categorías dinámicas ===
+fetch('/MiPrimerRe_backup/Proyectof/productos/getCat.php')
+  .then(r => r.json())
+  .then(data => {
+    const box = document.getElementById('dynamic-categories');
+    if (!box) return;
+    box.innerHTML = '';
+    data.forEach(cat => {
+      box.innerHTML += `
+        <a class="card"
+           href="/MiPrimerRe_backup/Proyectof/productos/productos.php?categoria=${encodeURIComponent(cat.name)}"
+           style="text-decoration:none;color:inherit;">
+          <img src="/MiPrimerRe_backup/${cat.imagen}" alt="${cat.name}">
+          <span class="categoria-titulo">${cat.name}</span>
+        </a>`;
     });
-  }
+  })
+  .catch(err => console.error('Error cargando categorías:', err));
 
-  // =====================
-  // CATEGORÍAS DINÁMICAS
-  // =====================
-  function renderDynamicCategories() {
-    const categoriesContainer = document.getElementById('dynamic-categories');
-    const categorias = [];
-    fetch('../productos/getCat.php')
-      .then(response => response.json())
-      .then(data => {
-        for (let i = 0; i < data.length; i++) {
-          categoriesContainer.innerHTML += `
-            <div class="card">
-              <img src='../../${data[i].imagen}'>
-              <span class="categoria-titulo">${data[i].name}</span>
-            </div>
-          `;
-        }; 
-    });
-
-    /*
-    if (categoriesContainer) {
-      categoriesContainer.innerHTML = ''; // Limpiar contenedor actual
-
-      if (categorias.length > 0) {
-        categorias.forEach(categoria => {
-          const card = document.createElement('div');
-          card.classList.add('card');
-          card.innerHTML = `
-            <img src="${categoria.imagen || './Recursos/default-category.png'}" alt="${categoria.nombre}">
-            <span class="categoria-titulo">${categoria.nombre}</span>
-          `;
-          // Añadir evento click para redirigir a la página de productos con la categoría
-          card.addEventListener('click', () => {
-            window.location.href = `../productos/productos.html?category=${encodeURIComponent(categoria.nombre)}`;
-          });
-          categoriesContainer.appendChild(card);
-        });
-      } else {
-        // Mostrar un mensaje si no hay categorías
-        categoriesContainer.innerHTML = '<p>No hay categorías disponibles.</p>';
-      }
-    }
-      */
-  }
-
-  // Llamar a la función para renderizar las categorías al cargar la página
-  renderDynamicCategories();
-
-});
-
-/* PORQUE ESTA DUPLICADO?
-document.addEventListener("DOMContentLoaded", function () { 
- 
-  
-  // =====================
-  // SLIDER AUTOMÁTICO
-  // =====================
-  let currentSlide = 0;
-  const slides = document.querySelectorAll(".slide");
-  const leftArrow = document.querySelector(".arrow.left");
-  const rightArrow = document.querySelector(".arrow.right");
-
-  function changeSlide(direction) {
-    slides[currentSlide].classList.remove("active");
-    currentSlide = (currentSlide + direction + slides.length) % slides.length;
-    slides[currentSlide].classList.add("active");
-  }
-
-  if (leftArrow && rightArrow && slides.length > 0) {
-    leftArrow.addEventListener("click", () => changeSlide(-1));
-    rightArrow.addEventListener("click", () => changeSlide(1));
-
-    setInterval(() => changeSlide(1), 5000);
-  }
-
-  // =====================
-  // CONTADOR DEL CARRITO
-  // =====================
-  function actualizarContadorCarrito() {
-    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-    const contador = document.querySelector('.cart-count');
-    if (contador) contador.textContent = carrito.length;
-  }
-
-  actualizarContadorCarrito();
-
-  // (Opcional) Añadir al carrito desde las tarjetas demo
-  document.querySelectorAll('.card').forEach(card => {
-    card.addEventListener('click', () => {
-      const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-      carrito.push({ id: Date.now() }); // Ejemplo: agrega un item ficticio
-      localStorage.setItem('carrito', JSON.stringify(carrito));
-      actualizarContadorCarrito();
-    });
-  });
-
-  // =====================
-  // BÚSQUEDA
-  // =====================
-  const searchForm = document.getElementById('search-form');
-  const searchInput = document.getElementById('search-input');
-
-  if (searchForm && searchInput) {
-    searchForm.addEventListener('submit', function (e) {
-      e.preventDefault();
-      const query = searchInput.value.trim();
-      if (query) {
-        window.location.href = `../productos/productos.html?search=${encodeURIComponent(query)}`;
-      }
-    });
-  }
-
-  // Debug
-  console.log("✅ JS cargado correctamente");
-}); */
+// === Contador mini-carrito (si lo manejas con localStorage) ===
+(function () {
+  const el = document.getElementById('miniCartCount');
+  if (!el) return;
+  try {
+    const items = JSON.parse(localStorage.getItem('cart_items') || '[]');
+    el.textContent = items.length || 0;
+  } catch { el.textContent = 0; }
+})();

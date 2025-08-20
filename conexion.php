@@ -1,8 +1,8 @@
 <?php
-$host = "mysql";
-$port = 3306;
+$host = "localhost";
+$port = 3307; // o 3306 si no cambiaste el puerto en MySQL
 $usuario = "root";
-$clave = "12345";
+$clave = ""; // <-- sin contraseña
 $bd = "tienda";
 
 $conn = new mysqli($host, $usuario, $clave, $bd, $port);

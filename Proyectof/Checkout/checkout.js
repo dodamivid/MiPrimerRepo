@@ -1,114 +1,51 @@
-// checkout.js
+// Proyectof/Checkout/checkout.js
+document.addEventListener('DOMContentLoaded', async () => {
+  const BASE = '/MiPrimerRe_backup/Proyectof';
 
-document.addEventListener("DOMContentLoaded", () => {
-  const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-  const resumenLista = document.getElementById("resumen-lista");
-  const resumenTotal = document.getElementById("resumen-total");
-  const form = document.getElementById("checkout-form");
+  // Contenedores opcionales (si no existen, no pasa nada)
+  const lista = document.querySelector('#lista-resumen, .lista-resumen, #resumen-pedido');
+  const elSubtotal = document.querySelector('#subtotal, .subtotal');
+  const elIva      = document.querySelector('#iva, .iva');
+  const elTotal    = document.querySelector('#total, .total');
 
-  resumenLista.innerHTML = "";
-  let subtotal = 0;
+  try {
+    const res = await fetch(`${BASE}/Checkout/checkout_data.php`, { cache: 'no-store' });
+    const data = await res.json();
 
-  if (carrito.length === 0) {
-    resumenLista.innerHTML = "<li>Tu carrito está vacío.</li>";
-    resumenTotal.textContent = "";
-  } else {
-    carrito.forEach(p => {
-      const li = document.createElement("li");
-      li.style.display = "flex";
-      li.style.alignItems = "center";
-      li.style.gap = "10px";
-      li.style.marginBottom = "10px";
-
-      const img = document.createElement("img");
-      img.src = p.imagen || `../productos/Resources/${encodeURIComponent(p.nombre)}.png`;
-      img.alt = p.nombre;
-      img.width = 60;
-      img.height = 60;
-      img.addEventListener("error", () => {
-        img.onerror = null;
-        img.src = "../productos/Resources/default.png";
-      });
-
-      const texto = document.createElement("span");
-      texto.textContent = `${p.nombre} - $${p.precio.toFixed(2)}`;
-
-      li.append(img, texto);
-      resumenLista.appendChild(li);
-
-      subtotal += p.precio;
-    });
-
-    const iva = subtotal * 0.16;
-    const total = subtotal + iva;
-
-    resumenTotal.innerHTML =
-      `Subtotal: $${subtotal.toFixed(2)}<br>` +
-      `IVA (16%): $${iva.toFixed(2)}<br>` +
-      `<strong>Total: $${total.toFixed(2)}</strong>`;
-
-    // Guardar total para usarlo en envío
-    form.dataset.total = total.toFixed(2);
-  }
-
-  form.addEventListener("submit", e => {
-    e.preventDefault();
-
-    const nombreInput     = document.getElementById("nombre").value.trim();
-    const email           = document.getElementById("email").value.trim();
-    const telefono        = document.getElementById("telefono").value.trim();
-    const dir1            = document.getElementById("direccion1").value.trim();
-    const dir2            = document.getElementById("direccion2").value.trim();
-    const ciudad          = document.getElementById("ciudad").value.trim();
-    const estado          = document.getElementById("estado").value.trim();
-    const cp              = document.getElementById("codigo-postal").value.trim();
-    const pais            = document.getElementById("pais").value;
-    const envio           = document.getElementById("metodo-envio").value;
-    const pago            = document.getElementById("pago").value;
-
-    if (!nombreInput || !email || !telefono || !dir1 || !ciudad || !estado || !cp || !pais || !envio || !pago) {
-      alert("Por favor, completa todos los campos requeridos.");
+    if (data.error) {
+      if (lista) lista.innerHTML = `<p>${data.error}</p>`;
+      if (elSubtotal) elSubtotal.textContent = '$0.00';
+      if (elIva) elIva.textContent = '$0.00';
+      if (elTotal) elTotal.textContent = '$0.00';
       return;
     }
 
-    const total = parseFloat(form.dataset.total);
-    const idVenta = Date.now() % 100000;
+    if (lista) {
+      // limpia y pinta rápido (no cambiamos tu CSS; solo <li> simples)
+      lista.innerHTML = '';
+      data.items.forEach(it => {
+        const li = document.createElement('li');
+        li.className = 'item-resumen';
+        li.innerHTML = `
+          <div class="resumen-left" style="display:flex;align-items:center;gap:8px">
+            <img src="/MiPrimerRe_backup/${it.Imagen}" alt="${it.Nombre}" style="width:48px;height:48px;object-fit:cover;border-radius:6px">
+            <span>${it.Nombre}</span>
+            <span>x${it.Cantidad}</span>
+          </div>
+          <div class="resumen-right">$${(it.Importe).toFixed(2)}</div>
+        `;
+        lista.appendChild(li);
+      });
+    }
 
-    // Extraer solo los datos que el backend necesita de los productos
-    const productos = carrito.map(p => ({
-      nombre: p.nombre,
-      precio: p.precio
-    }));
-
-    fetch('http://localhost/Mi_Tienda/MiprimerRepo/MiPrimerRepo/Proyectof/Checkout/procces_checkout.php', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        idVenta,
-        nombre: nombreInput,
-        email,
-        telefono,
-        direccion1: dir1,
-        direccion2: dir2,
-        ciudad,
-        estado,
-        cp,
-        pais,
-        envio,
-        pago,
-        total,
-        productos
-      })
-    })
-    .then(res => res.json())
-    .then(data => {
-      alert(data.message);
-      localStorage.removeItem("carrito");
-      window.location.href = "../inicio/index.php";
-    })
-    .catch(err => {
-      console.error(err);
-      alert("❌ Error al registrar la compra.");
-    });
-  });
+    if (elSubtotal) elSubtotal.textContent = '$' + (data.subtotal).toFixed(2);
+    if (elIva)      elIva.textContent      = '$' + (data.iva).toFixed(2);
+    if (elTotal)    elTotal.textContent    = '$' + (data.total).toFixed(2);
+  } catch (e) {
+    console.error(e);
+    if (lista) lista.innerHTML = '<p>Error al cargar el resumen.</p>';
+    if (elSubtotal) elSubtotal.textContent = '$0.00';
+    if (elIva) elIva.textContent = '$0.00';
+    if (elTotal) elTotal.textContent = '$0.00';
+  }
 });

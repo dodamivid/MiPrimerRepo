@@ -23,19 +23,20 @@ session_start();
         </div>
         
   
-  <nav class="main-nav">
-  <ul>
-    <li><a href="../inicio/index.php">Inicio</a></li>
-    <li><a href="../productos/productos.php">Productos</a></li>
-    <li><a href="../Carrito/carrito.php">Carrito</a></li>
-    <li><a href="../Checkout/checkout.php">Checkout</a></li>
+   <nav class="main-nav">
+      <ul>
+        <li><a href="../inicio/index.php">Inicio</a></li>
+        <li><a href="../productos/productos.php">Productos</a></li>
+        <li><a href="../Carrito/carrito.php">Carrito</a></li>
+        <li><a href="../Checkout/checkout.php">Checkout</a></li>
+        <?php
+if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin') {
+    echo '<li><a href="../AdminPanel/admin.php">Admin</a></li>';
+}
+?>
 
-    <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin'): ?>
-      <li><a href="/MiPrimerRepo/Proyectof/AdminPanel/admin.php">Admin</a></li>
-    <?php endif; ?>
-  </ul>
-</nav>
-
+      </ul>
+    </nav>
     </div>
   </header>
   
@@ -68,8 +69,8 @@ session_start();
       <h3>Enlaces rápidos</h3>
       <ul class="quick-links">
         <li><a href="../inicio/index.php"><i class="fas fa-paw"></i> Inicio</a></li>
-        <li><a href="../productos/productos.html"><i class="fas fa-shopping-bag"></i> Productos</a></li>
-        <li><a href="../Carrito/carrito.html"><i class="fas fa-shopping-cart"></i> Carrito</a></li>
+        <li><a href="../productos/productos.php"><i class="fas fa-shopping-bag"></i> Productos</a></li>
+        <li><a href="../Carrito/carrito.php"><i class="fas fa-shopping-cart"></i> Carrito</a></li>
        
       </ul>
     </div>
